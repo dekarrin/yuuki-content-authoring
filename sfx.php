@@ -3,15 +3,16 @@
 
 	<h1>Sound Effects</h1>
 	<table border = 1>
-		<tr><td>Index</td><td>File Name</td></tr>
+		<tr><td>Index</td><td>File Name</td><td>Content Pack</td></tr>
 		<?php
 			//$result = mysql_query("SELECT * FROM SoundEffect);
 			//$numrows = mysql_numrows(%result);
 			//for($i = 0; $i < $numrows; i++){
 				//$index = mysql_result($result, $i, "index");
 				//$filename = mysql_result($result, $i, "filename");
+				//$contentpack = mysql_reault($result, $i, "contentpack");
 				//echo "<tr>";
-				//echo "<td>$id</td> <td>$filename</td>";
+				//echo "<td>$id</td> <td>$filename</td> <td> $contentpack</td>";
 				//echo "</tr>";
 			//}
 		?>
