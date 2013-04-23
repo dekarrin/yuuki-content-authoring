@@ -20,7 +20,7 @@ class Database
 			$this->set_errors();
 			return FALSE;
 		}
-		if (!mysql_select_db($this->conn, $database))
+		if (!mysql_select_db($database, $this->conn))
 		{
 			$this->set_errors();
 			return FALSE;
