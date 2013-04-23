@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS `ContentPack` CASCADE;
+CREATE TABLE `ContentPack` (
+	
