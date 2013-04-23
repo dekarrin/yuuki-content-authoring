@@ -23,4 +23,22 @@ function get_actions($cid) {
 	return $final_result;
 }
 
+// Gets all entites for a content pack
+// $cid - The id of the content pack to get entities for; set to NULL for all content packs.
+function get_entities($cid) {
+	global $db;
+	$col = NULL;
+	$val = NULL;
+	if (!is_null($cid)) {
+		$col = 'cid';
+		$val = $cid;
+	}
+	$result = $db->select("Entities", "*", $col, $val);
+	$final_result = array();
+	foreach ($r as $result) {
+		$f = array();
+	//	$f['
+	}
+}
+
 ?>
