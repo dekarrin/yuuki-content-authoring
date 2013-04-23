@@ -9,4 +9,6 @@ require_once("includes/lib/database.php");
 
 $db = new Database($config['host'] . ':' . $config['port']);
 $db->connect($config['user'], $config['pass'], $config['db']);
+
+require_once("includes/lib/functions.php");
 ?>

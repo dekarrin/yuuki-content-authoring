@@ -33,6 +33,20 @@ class Database
 		return mysql_query($this->conn, $query);
 	}
 	
+	public function select($table, $column, $check, $value, $limit = NULL)
+	{
+		$q = "SELECT $column FROM $table WHERE $check = '$value'";
+		if (!is_null($limit)) {
+			$q .= " LIMIT $limit";
+		}
+		$r = $this->get_result_array($this->query($q));
+		if (!is_null($limit) && $limit == 1) {
+			return $r[0][$column];
+		} else {
+			return $r;
+		}
+	}
+	
 	public function get_result_array($result)
 	{
 		$formatted = array();
