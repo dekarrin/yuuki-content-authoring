@@ -14,7 +14,7 @@ class Database
 	
 	public function connect($user, $pass, $database)
 	{
-		$this->conn = mysql_connect($server, $user, $pass);
+		$this->conn = mysql_connect($this->server, $user, $pass);
 		if ($this->conn === FALSE)
 		{
 			$this->set_errors();
