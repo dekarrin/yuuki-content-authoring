@@ -10,16 +10,25 @@
 		?>
 	</table>
 	<form action "">
-		Type: <select>
-			<option value = "action1">Action1</option>
-			<option value = "action1">Action2</option>
-			<option value = "action1">Action3</option>
-			<option value = "action1">Action4</option>
-			<option value = "action1">Action5</option><br><br>
-		</select>
-		Parameter1: <input type = "text" name "parameter1">
-		Parameter2: <input type = "text" name "parameter2">
-		Parameter3: <input type = "text" name "parameter3">
+		<?php
+			//$result = mysql_query("SELECT * FROM ActionType");
+			//$numrows = mysql_numrows($result);
+			//
+			//echo "Type: <select>";
+			//
+			//for($i = 0; $i < $numrows; $i++){
+			//	$action = mysql_result($result, $i, "name");
+			//	echo "<option value = "$action">$action</option>;
+			//}
+			//echo "</select>";
+			
+		
+		
+		
+		?>
+		Action ID: <input type = "text" name "actionid">
+		position: <input type = "text" name "position">
+		value: <input type = "text" name "value">
 	</form>
 	
 	
