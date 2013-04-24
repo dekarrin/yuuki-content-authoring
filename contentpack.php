@@ -1,3 +1,4 @@
+<?php include "common.php"; ?>
 <html>
 <body>
 
@@ -5,15 +6,14 @@
 	<table border = 1>
 		<tr><td>ID</td><td>Name</td></tr>
 		<?php
-			//$result = mysql_query("SELECT * FROM ContentPack);
-			//$numrows = mysql_numrows(%result);
-			//for($i = 0; $i < $numrows; i++){
-				//$index = mysql_result($result, $i, "id");
-				//$name = mysql_result($result, $i, "name");
-				//echo "<tr>";
-				//echo "<td>$id</td> <td>$name</td>";
-				//echo "</tr>";
-			//}
+			$usable_contentpacks = db->get_contentpacks();
+			
+			foreach($usable_contentpacks as $u){
+				echo "<tr>";
+				echo "<td>$u['id']</td><td>$u['name']</td>";
+				echo "</tr>";
+			
+			}
 		?>
 	</table>
 	

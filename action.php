@@ -1,3 +1,4 @@
+<?php include "common.php";?>
 <html>
 <body>
 
@@ -5,22 +6,17 @@
 	<table border = 1>
 		<tr><td>ID</td><td>Type</td><td>Parameters</td></tr>
 		<?php
-			
-		
+			$usable_actions = db->get_action();
+			foreach($usable_actions as $u){
+				echo "<tr>";
+				echo "<td>$u['id']</td><td>$u['type']</td><td>$u['parameters'</td>"
+				echo "</tr>";
+				}
 		?>
 	</table>
 	<form action "">
 		<?php
-			//$result = mysql_query("SELECT * FROM ActionType");
-			//$numrows = mysql_numrows($result);
-			//
-			//echo "Type: <select>";
-			//
-			//for($i = 0; $i < $numrows; $i++){
-			//	$action = mysql_result($result, $i, "name");
-			//	echo "<option value = "$action">$action</option>;
-			//}
-			//echo "</select>";
+			
 			
 		
 		

@@ -1,3 +1,4 @@
+<?php include "common.php"; ?>
 <html>
 <body>
 
@@ -5,16 +6,12 @@
 	<table border = 1>
 		<tr><td>Index</td><td>File Name</td><td>Content Pack</td></tr>
 		<?php
-			//$result = mysql_query("SELECT * FROM BackroundMusic);
-			//$numrows = mysql_num_rows(%result);
-			//for($i = 0; $i < $numrows; i++){
-				//$index = mysql_result($result, $i, "index");
-				//$filename = mysql_result($result, $i, "filename");
-				//$contentpack = mysql_result($result, $i, "cid");
-				//echo "<tr>";
-				//echo "<td>$id</td> <td>$filename</td> <td>$contentpack</td>";
-				//echo "</tr>";
-			//}
+			$usable_bgm = db->get_bgm();	
+			foreach($usable_bgm as $u){
+				echo "<tr>";
+				echo "<td>$u['id']</td><td>$u['filename']</td><td>$u['cid']</td>"
+				echo "</tr>";
+			}
 		?>
 	</table>
 	
