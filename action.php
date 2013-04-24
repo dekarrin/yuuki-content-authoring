@@ -6,7 +6,7 @@
 	<table border = 1>
 		<tr><td>ID</td><td>Type</td><td>Parameters</td></tr>
 		<?php
-			$usable_actions = db->get_action();
+			$usable_actions = db->get_actions();
 			foreach($usable_actions as $u){
 				echo "<tr>";
 				echo "<td>$u['id']</td><td>$u['type']</td><td>$u['parameters'</td>"
@@ -16,10 +16,13 @@
 	</table>
 	<form action "">
 		<?php
-			
-			
-		
-		
+			$usable_actiontypes = db->get_action_types
+			echo "<select>";
+			$i = 0;
+			foreach($usable_actiontypes as $u){
+				echo "<option value = '$u['name']'>$u['name'}</option>";
+			}
+			echo "</select>";
 		
 		?>
 		Action ID: <input type = "text" name "actionid">
