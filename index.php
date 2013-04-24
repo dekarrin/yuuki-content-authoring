@@ -6,14 +6,14 @@
 	</head>
 	<body>
 		<p>Welcome to authoring tools. Build something creative by utilizing your thinking brain-machine.</p>
-		<a href="bgm.php">Link text</a>
-		<a href="sfx.php">Link text</a>
-		<a href="contentpack.php">Link text</a>
-		<a href="image.php">Link text</a>
-		<a href="action.php">Link text</a>
-		<a href="image.php">Link text</a>
-		<a href="entity.php">Link text</a>
-		<a href="tile.php">Link text</a>
-		<a href="map.php">Link text</a>
+		<a href="bgm.php">Backround Music</a>
+		<a href="sfx.php">Sound Effects</a>
+		<a href="contentpack.php">Content Packs</a>
+		<a href="image.php">Image</a>
+		<a href="action.php">Actions</a>
+		<a href="portal.php">Portal</a>
+		<a href="entity.php">Entity</a>
+		<a href="tile.php">Tile</a>
+		<a href="map.php">Map</a>
 	</body>
 </html>
