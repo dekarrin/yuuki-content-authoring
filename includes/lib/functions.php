@@ -1,7 +1,31 @@
 <?php
 
-// Gets all actions for a content pack
-// $cid - The id of the content pack to get actions for; set to NULL for all content packs.
+/**
+ * Gets all actions for a content pack.
+ * $cid - The id of the content pack to get actions for; set to NULL for all
+ * content packs.
+ * Returns an associative array of the following format:
+ * Array (
+ *		[0] => Array (
+ *			['id'] => (int - The ID of the action)
+ *			['cid'] => (int - The ID of the content pack that the action is defined in)
+ *			['type'] => (string - the type of the action)
+ *			['paramaters'] => Array (
+ *				[0] => Array (
+ *					['id'] => (int - The ID of the parameter)
+ *					['actionId'] => (int - The ID of the action this paramter is a part of)
+ *					['position'] => (int - The position of this parameter in the argument list)
+ *					['paramValue'] => (numeric - The value of this parameter for this action)
+ *				)
+ *				[1] => Array (
+ *					. . .
+ *				)
+ *				. . .
+ *			)
+ *		)
+ *		. . .
+ * )
+ */
 function get_actions($cid) {
 	global $db;
 	$col = NULL;

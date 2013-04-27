@@ -1,3 +1,5 @@
+USE yuukicontent;
+
 SET FOREIGN_KEY_CHECKS=0;
 TRUNCATE TABLE LandTiles;
 TRUNCATE TABLE MapPortals;
@@ -8,12 +10,14 @@ TRUNCATE TABLE Portals;
 TRUNCATE TABLE Entities;
 TRUNCATE TABLE Maps;
 TRUNCATE TABLE Lands;
-TRUNCATE TABLE ActionParameters;
+TRUNCATE TABLE ActionParameterValues;
 TRUNCATE TABLE Actions;
 TRUNCATE TABLE BackgroundMusics;
 TRUNCATE TABLE SoundEffects;
 TRUNCATE TABLE Images;
+TRUNCATE TABLE ActionParameters;
 TRUNCATE TABLE ActionTypes;
+TRUNCATE TABLE ArgDataTypes;
 TRUNCATE TABLE ContentPacks;
 SET FOREIGN_KEY_CHECKS=1;
 
@@ -22,11 +26,35 @@ VALUES ('BuiltIn', 'true', 'sprites/', 'tiles/', 'portals/');
 INSERT INTO ContentPacks (name, isBase) VALUES ('test-ae1', 'false');
 INSERT INTO ContentPacks (name, isBase) VALUES ('test-ah1', 'false');
 
+INSERT INTO ArgDataTypes (name) VALUES ('integral');
+INSERT INTO ArgDataTypes (name) VALUES ('decimal');
+INSERT INTO ArgDataTypes (name) VALUES ('string');
+
 INSERT INTO ActionTypes (name) VALUES ('Flee');
 INSERT INTO ActionTypes (name) VALUES ('ItemUse');
 INSERT INTO ActionTypes (name) VALUES ('BasicDefense');
 INSERT INTO ActionTypes (name) VALUES ('BasicAttack');
 INSERT INTO ActionTypes (name) VALUES ('Heal');
+
+INSERT INTO ActionParameters (argDataTypeId, actionTypeId, position, name)
+SELECT D.id, A.id, '1', 'duration'
+FROM ArgDataTypes AS D, ActionTypes AS A
+WHERE D.name = 'integral' AND A.name = 'BasicDefense';
+
+INSERT INTO ActionParameters (argDataTypeId, actionTypeId, position, name)
+SELECT D.id, A.id, '1', 'damage'
+FROM ArgDataTypes AS D, ActionTypes AS A
+WHERE D.name = 'decimal' AND A.name = 'BasicAttack';
+
+INSERT INTO ActionParameters (argDataTypeId, actionTypeId, position, name)
+SELECT D.id, A.id, '1', 'amount'
+FROM ArgDataTypes AS D, ActionTypes AS A
+WHERE D.name = 'decimal' AND A.name = 'Heal';
+
+INSERT INTO ActionParameters (argDataTypeId, actionTypeId, position, name)
+SELECT D.id, A.id, '2', 'cost'
+FROM ArgDataTypes AS D, ActionTypes AS A
+WHERE D.name = 'integral' AND A.name = 'Heal';
 
 INSERT INTO Images (cid, filename, customIndex)
 SELECT id, 'joshua_tree.jpg', 'BG_INTRO_SCREEN'
@@ -135,12 +163,15 @@ SELECT C.id, T.id
 FROM ContentPacks AS C, ActionTypes as T
 WHERE C.name = 'BuiltIn' AND T.name = 'BasicDefense';
 
-INSERT INTO ActionParameters (actionId, position, paramValue)
-SELECT A.id, '1', '1'
-FROM Actions AS A
-INNER JOIN ActionTypes AS T
-ON A.actionTypeId = T.id
-WHERE T.name = 'BasicDefense'
+INSERT INTO ActionParameterValues (actionParameterId, actionId, paramValue)
+SELECT P.id, A.id, '1'
+FROM ActionParameters AS P
+INNER JOIN ActionTypes AS T1
+ON T1.id = P.actionTypeId,
+Actions AS A
+INNER JOIN ActionTypes AS T2
+ON T2.id = A.actionTypeId
+WHERE T1.name = 'BasicDefense' AND P.name = 'duration' AND T2.name = T1.name
 ORDER BY A.id DESC
 LIMIT 1;
 
@@ -149,12 +180,15 @@ SELECT C.id, T.id
 FROM ContentPacks AS C, ActionTypes as T
 WHERE C.name = 'BuiltIn' AND T.name = 'BasicAttack';
 
-INSERT INTO ActionParameters (actionId, position, paramValue)
-SELECT A.id, '1', '3.0'
-FROM Actions AS A
-INNER JOIN ActionTypes AS T
-ON A.actionTypeId = T.id
-WHERE T.name = 'BasicAttack'
+INSERT INTO ActionParameterValues (actionParameterId, actionId, paramValue)
+SELECT P.id, A.id, '3.0'
+FROM ActionParameters AS P
+INNER JOIN ActionTypes AS T1
+ON T1.id = P.actionTypeId,
+Actions AS A
+INNER JOIN ActionTypes AS T2
+ON T2.id = A.actionTypeId
+WHERE T1.name = 'BasicAttack' AND P.name = 'damage' AND T2.name = T1.name
 ORDER BY A.id DESC
 LIMIT 1;
 
@@ -163,12 +197,15 @@ SELECT C.id, T.id
 FROM ContentPacks AS C, ActionTypes as T
 WHERE C.name = 'BuiltIn' AND T.name = 'BasicAttack';
 
-INSERT INTO ActionParameters (actionId, position, paramValue)
-SELECT A.id, '1', '4.0'
-FROM Actions AS A
-INNER JOIN ActionTypes AS T
-ON A.actionTypeId = T.id
-WHERE T.name = 'BasicAttack'
+INSERT INTO ActionParameterValues (actionParameterId, actionId, paramValue)
+SELECT P.id, A.id, '4.0'
+FROM ActionParameters AS P
+INNER JOIN ActionTypes AS T1
+ON T1.id = P.actionTypeId,
+Actions AS A
+INNER JOIN ActionTypes AS T2
+ON T2.id = A.actionTypeId
+WHERE T1.name = 'BasicAttack' AND P.name = 'damage' AND T2.name = T1.name
 ORDER BY A.id DESC
 LIMIT 1;
 
@@ -177,12 +214,15 @@ SELECT C.id, T.id
 FROM ContentPacks AS C, ActionTypes as T
 WHERE C.name = 'BuiltIn' AND T.name = 'BasicAttack';
 
-INSERT INTO ActionParameters (actionId, position, paramValue)
-SELECT A.id, '1', '1.0'
-FROM Actions AS A
-INNER JOIN ActionTypes AS T
-ON A.actionTypeId = T.id
-WHERE T.name = 'BasicAttack'
+INSERT INTO ActionParameterValues (actionParameterId, actionId, paramValue)
+SELECT P.id, A.id, '1.0'
+FROM ActionParameters AS P
+INNER JOIN ActionTypes AS T1
+ON T1.id = P.actionTypeId,
+Actions AS A
+INNER JOIN ActionTypes AS T2
+ON T2.id = A.actionTypeId
+WHERE T1.name = 'BasicAttack' AND P.name = 'damage' AND T2.name = T1.name
 ORDER BY A.id DESC
 LIMIT 1;
 
@@ -191,21 +231,27 @@ SELECT C.id, T.id
 FROM ContentPacks AS C, ActionTypes as T
 WHERE C.name = 'BuiltIn' AND T.name = 'Heal';
 
-INSERT INTO ActionParameters (actionId, position, paramValue)
-SELECT A.id, '1', '50.0'
-FROM Actions AS A
-INNER JOIN ActionTypes AS T
-ON A.actionTypeId = T.id
-WHERE T.name = 'Heal'
+INSERT INTO ActionParameterValues (actionParameterId, actionId, paramValue)
+SELECT P.id, A.id, '50.0'
+FROM ActionParameters AS P
+INNER JOIN ActionTypes AS T1
+ON T1.id = P.actionTypeId,
+Actions AS A
+INNER JOIN ActionTypes AS T2
+ON T2.id = A.actionTypeId
+WHERE T1.name = 'Heal' AND P.name = 'amount' AND T2.name = T1.name
 ORDER BY A.id DESC
 LIMIT 1;
 
-INSERT INTO ActionParameters (actionId, position, paramValue)
-SELECT A.id, '2', '0.0'
-FROM Actions AS A
-INNER JOIN ActionTypes AS T
-ON A.actionTypeId = T.id
-WHERE T.name = 'Heal'
+INSERT INTO ActionParameterValues (actionParameterId, actionId, paramValue)
+SELECT P.id, A.id, '0'
+FROM ActionParameters AS P
+INNER JOIN ActionTypes AS T1
+ON T1.id = P.actionTypeId,
+Actions AS A
+INNER JOIN ActionTypes AS T2
+ON T2.id = A.actionTypeId
+WHERE T1.name = 'Heal' AND P.name = 'cost' AND T2.name = T1.name
 ORDER BY A.id DESC
 LIMIT 1;
 
