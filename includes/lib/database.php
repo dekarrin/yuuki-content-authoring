@@ -6,6 +6,7 @@ class Database
 	private $server;
 	private $error = NULL;
 	private $errno = NULL;
+	private $prepared = array();
 	
 	public function __construct($server)
 	{
@@ -31,6 +32,42 @@ class Database
 	public function query($query)
 	{
 		return mysql_query($this->conn, $query);
+	}
+	
+	// Does not actually prepare query; only stores it for later parsing
+	public function prepare($name, $query)
+	{
+		$this->prepared[$name] = $query;
+	}
+	
+	// only executes stored query; does not call any special procedure on server
+	// Do not escape args before calling this function; they are escaped in this method.
+	public function execute($name, $params = NULL)
+	{
+		if (!array_key_exists($name, $this->prepared)) {
+			return FALSE;
+		}
+		$stmt = $this->prepared[$name];
+		if (!is_null($params)) {
+			for ($i = count($params); $i > 0; $i--) {
+				$arg = $params[$i - 1];
+				$arg = $this->escape($arg);
+				$stmt = str_replace('$' . $i, $arg, $stmt);
+			}
+		}
+		$result = $this->query($stmt);
+		return $result;
+	}
+	
+	public function free_result($result) {
+		mysql_free_result($result);
+	}
+	
+	public function prepared_select($stmt, $params = NULL) {
+		$r = $this->execute($stmt, $params);
+		$result = $this->get_result_array($r);
+		$this->free_result($r);
+		return $result;
 	}
 	
 	public function select($table, $column, $check, $value, $limit = NULL)
