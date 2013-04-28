@@ -336,7 +336,7 @@ WHERE C.name = 'BuiltIn' AND I.customIndex = 'SPRITE_SLIME';
 
 INSERT INTO EntityAbilities (actionId, entityId)
 SELECT A.id, E.id FROM Actions AS A, Entities AS E
-WHERE E.name = "__PLAYER" AND A.id = '5';
+WHERE E.name = "Slime" AND A.id = '5';
 
 INSERT INTO Portals (cid, name, spriteId)
 SELECT C.id, 'teleporter', I.id
