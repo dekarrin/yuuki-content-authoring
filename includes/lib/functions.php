@@ -81,6 +81,26 @@
  *			['tileDir'] => (string - Where tile sprites are located)
  *			['bgDir'] => (string - Where background images are located)
  *			['portalDir'] => (string - Where portal sprites are located)
+ *
+ * Land:
+ * Array (
+ *		[0] => Array (
+ *			['id'], ['cid'], ['name'], ['startX'], ['startY'] - player start coords
+ *			['width'], ['height'],
+ *			['tiles']: Array (
+ *				['tile']: Tile Array
+ *				['x'], ['y']
+ *				
+ * Map:
+ * Array (
+ *		[0] => Array (
+ *			['id'], ['landId'], ['cid'],
+ *			['portals']: Array (
+ *				['portal']: Portal array
+ *				['x'] ['y'] ['destMapId'] ['destX'] ['destY']
+ *			['entities']: Array (
+ *				['entity']: Entity array
+ *				['x'] ['y'] ['level']
  */
 
 /**
