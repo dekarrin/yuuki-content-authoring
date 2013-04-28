@@ -62,6 +62,14 @@
  *			['cid'] => (int - The ID of the content pack that this portal is in)
  *			['name'] => (string - The name of the portal)
  *			['sprite'] => (string - the filename of the sprite)
+ *
+ * Image, BackgroundMusic, SoundEffect:
+ * Array (
+ *		[0] => Array (
+ *			['id'] => (int - The ID)
+ *			['cid'] => (int - The ID of the content pack)
+ *			['filename'] => (string - The location on server of the image file)
+ *			['customIndex'] => (string - The fake foreign key used in exported files)
  */
 
 /**
@@ -122,6 +130,48 @@ function get_portals($cid = NULL) {
 	$stmt = (is_null($cid)) ? 'get_portals' : 'get_portals_for_cid';
 	$portals = $db->prepared_select($stmt, $args);
 	return $portals;
+}
+
+/**
+ * Gets all images for a content pack
+ * $cid - The id of the content pack to get images for; set to NULL for all
+ * content packs.
+ * Returns an array of Image format arrays.
+ */
+function get_images($cid = NULL) {
+	global $db;
+	$args = (is_null($cid)) ? NULL : array($cid);
+	$stmt = (is_null($cid)) ? 'get_images' : 'get_images_for_cid';
+	$images = $db->prepared_select($stmt, $args);
+	return $images;
+}
+
+/**
+ * Gets all background music for a content pack
+ * $cid - The id of the content pack to get background music for; set to NULL for all
+ * content packs.
+ * Returns an array of BackgroundMusic format arrays.
+ */
+function get_bgm($cid = NULL) {
+	global $db;
+	$args = (is_null($cid)) ? NULL : array($cid);
+	$stmt = (is_null($cid)) ? 'get_bgm' : 'get_bgm_for_cid';
+	$bgm = $db->prepared_select($stmt, $args);
+	return $bgm;
+}
+
+/**
+ * Gets all sound effects for a content pack
+ * $cid - The id of the content pack to get sound effects for; set to NULL for all
+ * content packs.
+ * Returns an array of SoundEffect format arrays.
+ */
+function get_sfx($cid = NULL) {
+	global $db;
+	$args = (is_null($cid)) ? NULL : array($cid);
+	$stmt = (is_null($cid)) ? 'get_sfx' : 'get_sfx_for_cid';
+	$sfx = $db->prepared_select($stmt, $args);
+	return $sfx;
 }
 
 /**

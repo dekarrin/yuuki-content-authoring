@@ -90,4 +90,31 @@ FROM Portals AS p
 INNER JOIN Images AS i
 ON p.spriteId = i.id
 WHERE p.cid = \'$1\'');
+
+$db->prepare('get_images',
+'SELECT *
+FROM Images');
+
+$db->prepare('get_images_for_cid',
+'SELECT *
+FROM Images
+WHERE cid = \'$1\'');
+
+$db->prepare('get_bgm',
+'SELECT *
+FROM BackgroundMusics');
+
+$db->prepare('get_bgm_for_cid',
+'SELECT *
+FROM BackgroundMusics
+WHERE cid = \'$1\'');
+
+$db->prepare('get_sfx',
+'SELECT *
+FROM SoundEffects');
+
+$db->prepare('get_sfx_for_cid',
+'SELECT *
+FROM SoundEffects
+WHERE cid = \'$1\'');
 ?>
