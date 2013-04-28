@@ -50,19 +50,17 @@
  * Gets all actions for a content pack.
  * $cid - The id of the content pack to get actions for; set to NULL for all
  * content packs.
- * Returns an associative array of Actions.
+ * Returns an array of Actions.
  */
-function get_actions($cid) {
+function get_actions($cid = NULL) {
 	global $db;
 	$actions = NULL;
 	if (is_null($cid)) {
 		$actions = $db->prepared_select('get_actions');
 	} else {
-		$actions = $db->prepared_select('get_actions_with_cid', array($cid));
+		$actions = $db->prepared_select('get_actions_for_cid', array($cid));
 	}
-	foreach ($actions as $a) {
-		$a['params'] = $db->prepared_select('get_action_params', array($a['id']));
-	}
+	set_action_params($actions);
 	return $actions;
 }
 
@@ -72,32 +70,41 @@ function get_actions($cid) {
  * content packs.
  * Returns an array of Entity format arrays.
  */
-function get_entities($cid) {
+function get_entities($cid = NULL) {
 	global $db;
-	$col = NULL;
-	$val = NULL;
-	if (!is_null($cid)) {
-		$col = 'cid';
-		$val = $cid;
+	$entities = NULL;
+	if (is_null($cid)) {
+		$entities = $db->prepared_select('get_entities');
+	} else {
+		$entities = $db->prepared_select('get_entities_for_cid', array($cid));
 	}
-	$result = $db->select("Entities", "*", $col, $val);
-	$final_result = array();
-	foreach ($r as $result) {
-		$f = array();
-	//	$f['
+	foreach ($entities as &$e) {
+		$e['actions'] = $db->get_entity_actions($e['id']);
 	}
 }
 
-function group_rows_by
+/**
+ * Gets all actions for an entity.
+ * $entity_id - The ID of the entity to get actions for.
+ * Returns an array of Actions.
+ */
+function get_entity_actions($entity_id) {
+	global $db;
+	$actions = $db->prepared_select('get_actions_for_entity', array($entity_id));
+	set_action_params($actions);
+	return $actions;
+}
 
-// Sorts rows by $column
-function sort_rows($rows, $column) {
-	$sorted = array();
-	foreach ($rows as $r) {
-		$col = $r[$column];
-		$sorted[$col][] = $r;
+/**
+ * Sets the parameters of an array of actions.
+ * $actions - The actions array to modify. Passed by reference.
+ * Returns nothing; the passed in array is modified.
+ */
+function set_action_params(&$actions) {
+	global $db;
+	foreach ($actions as &$a) {
+		$a['params'] = $db->prepared_select('get_action_params', array($a['id']));
 	}
-	return $sorted;
 }
 
 ?>
