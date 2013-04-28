@@ -1,4 +1,4 @@
-<?php include "common.php"; ?>
+<?php require "includes/common.php"; ?>
 <html>
 <body>
 
@@ -6,10 +6,10 @@
 	<table border = 1>
 		<tr><td>Index</td><td>File Name</td><td>Content Pack</td></tr>
 		<?php
-			$usable_sfx = db-> get_sfx();
+			$usable_sfx = get_sfx();
 			foreach($usable_sfx as $u){
 				echo "<tr>";
-				echo "<td>$u['id']</td><td>$u['filename']</td><td>$u['cid']</td>";
+				echo "<td>{$u['id']}</td><td>{$u['filename']}</td><td>{$u['cid']}</td>";
 				echo "</tr>";
 			}
 		?>

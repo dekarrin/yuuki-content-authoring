@@ -1,4 +1,4 @@
-<?php include "common.php"; ?>
+<?php require "includes/common.php"; ?>
 <html>
 <body>
 
@@ -6,11 +6,11 @@
 	<table border = 1>
 		<tr><td>ID</td><td>Name</td></tr>
 		<?php
-			$usable_contentpacks = db->get_contentpacks();
+			$usable_contentpacks = get_contentpacks();
 			
 			foreach($usable_contentpacks as $u){
 				echo "<tr>";
-				echo "<td>$u['id']</td><td>$u['name']</td>";
+				echo "<td>{$u['id']}</td><td>{$u['name']}</td>";
 				echo "</tr>";
 			
 			}

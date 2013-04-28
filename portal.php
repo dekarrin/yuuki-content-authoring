@@ -6,12 +6,12 @@
 	<table border = 1>
 		<tr><td>ID</td><td>Name</td><td>ContenPack</td><td>Sprite</td></tr>
 		<?php
-			$usable_image = db->get_images();
+			$usable_image = get_images();
 			
 			foreach($usable_image as $u){
 				echo "<tr>";
-				echo "<td>$u['id']</td><td>$u['name']</td><td>$u['cid']</td>
-					<td>$u['sprite']</td>";
+				echo "<td>{$u['id']}</td><td>{$u['name']}</td><td>{$u['cid']}</td>
+					<td>{$u['sprite']}</td>";
 				echo "</tr>";
 			}
 		?>

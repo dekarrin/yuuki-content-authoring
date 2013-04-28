@@ -1,4 +1,4 @@
-<?php include "common.php"; ?>
+<?php require "includes/common.php"; ?>
 <html>
 <body>
 
@@ -6,11 +6,11 @@
 	<table border = 1>
 		<tr><td>ID</td><td>Filename</td><td>Contentpacks</td></tr>
 		<?php
-			$usable_image = db->get_images();
+			$usable_image = get_images();
 			
 			foreach($usable_image as $u){
 				echo "<tr>";
-				echo "<td>$u['id']</td><td>$u['filename']</td><td>$u['cid']</td>";
+				echo "<td>{$u['id']}</td><td>{$u['filename']}</td><td>{$u['cid']}</td>";
 				echo "</tr>";
 			}
 		?>

@@ -1,4 +1,4 @@
-<?php include "common.php";?>
+<?php include "includes/common.php";?>
 <html>
 <body>
 
@@ -9,14 +9,14 @@
 			$usable_actions = db->get_actions();
 			foreach($usable_actions as $u){
 				echo "<tr>";
-				echo "<td>$u['id']</td><td>$u['type']</td><td>$u['parameters'</td>"
+				echo "<td>{$u['id']}</td><td>{$u['type']}</td><td>{$u['parameters']}</td>"
 				echo "</tr>";
-				}
+			}
 		?>
 	</table>
 	<form action "">
 		<?php
-			$usable_actiontypes = db->get_action_types
+			$usable_actiontypes = db->get_action_types;
 			echo "<select>";
 			$i = 0;
 			foreach($usable_actiontypes as $u){

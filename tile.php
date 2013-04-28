@@ -1,4 +1,4 @@
-<?php include "common.php"; ?>
+<?php require "includes/common.php"; ?>
 <html>
 <body>
 
@@ -6,13 +6,13 @@
 	<table border = 1>
 		<tr><td>ID</td><td>Name</td><td>Content Pack</td><td>Data Character</td><td>Traversable</td><td>Sprite</td></tr>
 		<?php
-			$usable_tiles = db->get_tiles();
+			$usable_tiles = get_tiles();
 			
 			foreach($usable_tiles as $u){
 				echo "<tr>";
-				echo "<td>$u['id']</td><td>$u['name']</td><td>$u['cid']</td>
-					<td>$u['datachar']</td><td>$u['traversable']</td>
-					<td>$u['sprite']</td>";
+				echo "<td>{$u['id']}</td><td>{$u['name']}</td><td>{$u['cid']}</td>
+					<td>{$u['datachar']}</td><td>{$u['traversable']}</td>
+					<td>{$u['sprite']}	</td>";
 				echo "</tr>";
 			}
 		?>
