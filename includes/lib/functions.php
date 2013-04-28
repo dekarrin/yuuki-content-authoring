@@ -44,6 +44,16 @@
  *			... (check schema for entity details)
  *			['luckGain']
  *			['actions'] => (Array(Action) - The actions that this entity knows)
+ *
+ * Tile:
+ * Array (
+ *		[0] => Array (
+ *			['id'] => (int - The ID of the tile)
+ *			['cid'] => (int - The ID of the content pack that this tile belongs to)
+ *			['dataChar'] => (char - The character that represents this tile in editing)
+ *			['name'] => (string - The name of this tile)
+ *			['traversable'] => (bool - Whether the tile may be walked on)
+ *			['sprite'] => (string - the filename of the sprite)
  */
 
 /**
@@ -54,12 +64,9 @@
  */
 function get_actions($cid = NULL) {
 	global $db;
-	$actions = NULL;
-	if (is_null($cid)) {
-		$actions = $db->prepared_select('get_actions');
-	} else {
-		$actions = $db->prepared_select('get_actions_for_cid', array($cid));
-	}
+	$args = (is_null($cid)) ? NULL : array($cid);
+	$stmt = (is_null($cid)) ? 'get_actions' : 'get_actions_for_cid';
+	$actions = $db->prepared_select($stmt, $args);
 	set_action_params($actions);
 	return $actions;
 }
@@ -72,16 +79,27 @@ function get_actions($cid = NULL) {
  */
 function get_entities($cid = NULL) {
 	global $db;
-	$entities = NULL;
-	if (is_null($cid)) {
-		$entities = $db->prepared_select('get_entities');
-	} else {
-		$entities = $db->prepared_select('get_entities_for_cid', array($cid));
-	}
+	$args = (is_null($cid)) ? NULL : array($cid);
+	$stmt = (is_null($cid)) ? 'get_entities' : 'get_entities_for_cid';
+	$entities = $db->prepared_select($stmt, $args);
 	foreach ($entities as &$e) {
 		$e['actions'] = get_entity_actions($e['id']);
 	}
 	return $entities;
+}
+
+/**
+ * Gets all tiles for a content pack
+ * $cid - The id of the content pack to get tiles for; set to NULL for all
+ * content packs.
+ * Returns an array of Tile format arrays.
+ */
+function get_tiles($cid = NULL) {
+	global $db;
+	$args = (is_null($cid)) ? NULL : array($cid);
+	$stmt = (is_null($cid)) ? 'get_tiles' : 'get_tiles_for_cid';
+	$tiles = $db->prepared_select($stmt, $args);
+	return $tiles;
 }
 
 /**

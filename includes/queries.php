@@ -64,4 +64,17 @@ WHERE a.id IN (
 	WHERE entityId = \'$1\'
 )
 ORDER BY a.id;');
+
+$db->prepare('get_tiles',
+'SELECT t.id, t.cid, t.dataChar, t.name, t.traversable, i.filename
+FROM Tiles AS t
+INNER JOIN Images AS i
+ON t.spriteId = i.id');
+
+$db->prepare('get_tiles_for_cid',
+'SELECT t.id, t.cid, t.dataChar, t.name, t.traversable, i.filename
+FROM Tiles AS t
+INNER JOIN Images AS i
+ON t.spriteId = i.id
+WHERE t.cid = \'$1\'');
 ?>
