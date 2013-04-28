@@ -7,6 +7,7 @@ class Database
 	private $error = NULL;
 	private $errno = NULL;
 	private $prepared = array();
+	private $log = array();
 	
 	public function __construct($server)
 	{
@@ -29,9 +30,15 @@ class Database
 		return TRUE;
 	}
 	
+	public function get_log()
+	{
+		return $this->log;
+	}
+	
 	public function query($query)
 	{
-		return mysql_query($this->conn, $query);
+		$this->log[] = $query;
+		return mysql_query($query, $this->conn);
 	}
 	
 	// Does not actually prepare query; only stores it for later parsing
@@ -122,7 +129,7 @@ class Database
 	private function set_errors()
 	{
 		$this->error = mysql_error($this->conn);
-		$this->errno = mysql_error($this->conn);
+		$this->errno = mysql_errno($this->conn);
 	}
 }
 
