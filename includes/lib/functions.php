@@ -79,8 +79,9 @@ function get_entities($cid = NULL) {
 		$entities = $db->prepared_select('get_entities_for_cid', array($cid));
 	}
 	foreach ($entities as &$e) {
-		$e['actions'] = $db->get_entity_actions($e['id']);
+		$e['actions'] = get_entity_actions($e['id']);
 	}
+	return $entities;
 }
 
 /**
