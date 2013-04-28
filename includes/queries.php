@@ -117,4 +117,13 @@ $db->prepare('get_sfx_for_cid',
 'SELECT *
 FROM SoundEffects
 WHERE cid = \'$1\'');
+
+$db->prepare('get_content_packs',
+'SELECT *
+FROM ContentPacks');
+
+$db->prepare('get_content_packs_for_id',
+'SELECT *
+FROM ContentPacks
+WHERE id = \'$1\'');
 ?>
