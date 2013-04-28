@@ -54,6 +54,14 @@
  *			['name'] => (string - The name of this tile)
  *			['traversable'] => (bool - Whether the tile may be walked on)
  *			['sprite'] => (string - the filename of the sprite)
+ *
+ * Portal:
+ * Array (
+ *		[0] => Array (
+ *			['id'] => (int - The ID)
+ *			['cid'] => (int - The ID of the content pack that this portal is in)
+ *			['name'] => (string - The name of the portal)
+ *			['sprite'] => (string - the filename of the sprite)
  */
 
 /**
@@ -100,6 +108,20 @@ function get_tiles($cid = NULL) {
 	$stmt = (is_null($cid)) ? 'get_tiles' : 'get_tiles_for_cid';
 	$tiles = $db->prepared_select($stmt, $args);
 	return $tiles;
+}
+
+/**
+ * Gets all portals for a content pack
+ * $cid - The id of the content pack to get portals for; set to NULL for all
+ * content packs.
+ * Returns an array of Portal format arrays.
+ */
+function get_portals($cid = NULL) {
+	global $db;
+	$args = (is_null($cid)) ? NULL : array($cid);
+	$stmt = (is_null($cid)) ? 'get_portals' : 'get_portals_for_cid';
+	$portals = $db->prepared_select($stmt, $args);
+	return $portals;
 }
 
 /**

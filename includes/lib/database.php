@@ -38,7 +38,12 @@ class Database
 	public function query($query)
 	{
 		$this->log[] = $query;
-		return mysql_query($query, $this->conn);
+		$result = mysql_query($query, $this->conn);
+		if ($result === FALSE) {
+			$this->set_errors();
+			return NULL;
+		}
+		return $result;
 	}
 	
 	// Does not actually prepare query; only stores it for later parsing
