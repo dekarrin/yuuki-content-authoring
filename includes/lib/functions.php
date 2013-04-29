@@ -272,6 +272,20 @@ function get_maps($cid = NULL) {
 }
 
 /**
+ * Gets a map of a specific id.
+ * $id - The id of the map to get.
+ */
+function get_map_by_id($id) {
+	$maps = get_maps();
+	foreach ($maps as $m) {
+		if ($m['id'] == $id) {
+			return $m;
+		}
+	}
+	return NULL;
+}
+
+/**
  * Gets all actions for an entity.
  * $entity_id - The ID of the entity to get actions for.
  * Returns an array of Actions.
