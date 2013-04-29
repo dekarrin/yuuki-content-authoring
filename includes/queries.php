@@ -126,4 +126,28 @@ $db->prepare('get_content_packs_for_id',
 'SELECT *
 FROM ContentPacks
 WHERE id = \'$1\'');
+
+$db->prepare('get_lands',
+'SELECT *
+FROM Lands');
+
+$db->prepare('get_lands_for_cid',
+'SELECT *
+FROM Lands
+WHERE cid = \'$1\'');
+
+$db->prepare('get_lands_for_id',
+'SELECT *
+FROM Lands
+WHERE id = \'$1\'');
+
+$db->prepare('get_land_tiles_for_land_id',
+'SELECT lt.x, lt.y, t.id, t.cid,
+t.dataChar, t.name, t.traversable, i.filename
+FROM LandTiles AS lt
+INNER JOIN Tiles AS t
+ON t.id = lt.tileId
+INNER JOIN Images AS i
+ON i.id = t.spriteId
+WHERE lt.landId = \'$1\'');
 ?>

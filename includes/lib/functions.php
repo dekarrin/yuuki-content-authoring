@@ -88,8 +88,7 @@
  *			['id'], ['cid'], ['name'], ['startX'], ['startY'] - player start coords
  *			['width'], ['height'],
  *			['tiles']: Array (
- *				['tile']: Tile Array
- *				['x'], ['y']
+ *				... (all fields of Tile, + ['x'] and ['y'])
  *				
  * Map:
  * Array (
@@ -216,6 +215,23 @@ function get_content_packs($id = NULL) {
 	$stmt = (is_null($id)) ? 'get_content_packs' : 'get_content_packs_for_id';
 	$cps = $db->prepared_select($stmt, $args);
 	return $cps;
+}
+
+/**
+ * Gets all lands for a content pack
+ * $cid - The id of the content pack to get lands for; set to NULL for all
+ * content packs.
+ * Returns an array of Land format arrays.
+ */
+function get_lands($cid = NULL) {
+	global $db;
+	$args = (is_null($cid)) ? NULL : array($cid);
+	$stmt = (is_null($cid)) ? 'get_lands' : 'get_lands_for_cid';
+	$lands = $db->prepared_select($stmt, $args);
+	foreach ($lands as &$l) {
+		$l['tile'] = $db->prepared_select('get_land_tiles_for_land_id', array($l['id']));
+	}
+	return $lands;
 }
 
 /**
