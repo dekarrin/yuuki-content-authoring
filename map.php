@@ -25,7 +25,7 @@ if (!array_key_exists('edit', $_GET)) {
 			<tr>
 				<th>ID</th>
 				<th>Content Pack</th>
-				<th>Land ID</th>
+				<th>Land</th>
 				<th>Portals</th>
 				<th>Entities</th>
 				<th>Actions</th>
@@ -43,7 +43,9 @@ if (!array_key_exists('edit', $_GET)) {
 				<td><?php echo $l['name']; ?></td>
 				<td><?php echo count($m['portals']); ?></td>
 				<td><?php echo count($m['entities']); ?></td>
-				<td><a href="<?php echo $_SERVER['PHP_SELF'] . '?edit=' . $m['id']; ?>">Edit</a></td>
+				<td><a href="<?php echo $_SERVER['PHP_SELF'] . '?edit=' . $m['id']; ?>">Edit</a>
+				<a href="submit.php?action=delete_map&id=<?php echo $m['id']; ?>">Delete</a>
+				</td>
 			</tr>
 <?php
 		}
@@ -56,6 +58,35 @@ if (!array_key_exists('edit', $_GET)) {
 	}
 ?>
 		</table>
+		<hr />
+		<form action="submit.php?action=new_map" method="post">
+			<table border="1">
+				<tr>
+					<th>Content Pack</th>
+					<th>Land</th>
+					<th>&nbsp;</th>
+				</tr>
+				<tr>
+					<td><select name="content_pack">
+<?php
+	$cps = get_content_packs();
+	foreach ($cps as $cp) {
+		echo "\t\t\t\t\t\t<option value=\"{$cp['id']}\">{$cp['name']}</option>\n";
+	}
+?>
+					</select></td>
+					<td><select name="land">
+<?php
+	$lands = get_lands();
+	foreach ($lands as $l) {
+		echo "\t\t\t\t\t\t<option value=\"{$l['id']}\">{$l['name']}</option>\n";
+	}
+?>
+					</select></td>
+					<td><input type="submit" value="Add Map" /></td>
+				</tr>
+			</table>
+		</form>
 <?php
 } else {
 	function check_land($l, $m) {

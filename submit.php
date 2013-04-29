@@ -42,7 +42,18 @@ require "includes/common.php";
 			break;
 			
 		case 'new_map':
+			$cid = $db->escaped($_POST['content_pack']);
+			$landId = $db->escaped($_POST['land']);
+			$s = $db->query("INSERT INTO Maps (cid, landId) VALUES ('$cid', '$landId')");
+			if ($s === FALSE) {
+				echo 'An error occured.<br />';
+			} else {
+				header("Refresh: 5; URL=map.php");
+				echo 'Complete; Redirecting in 5 seconds...<br />';
+			}
+			echo '<a href="map.php">Back</a>';
 			break;
+			
 		case 'new_entity':
 			
 			$hpb = $db->escaped($_POST['hpbase']);
@@ -86,10 +97,22 @@ require "includes/common.php";
 			if ($s === FALSE) {
 				echo 'An error occured.<br />';
 			} else {
-				header("Refresh: 5; URL=map.php?edit=$id");
+				header("Refresh: 5; URL=map.php?edit=$from");
 				echo 'Complete; Redirecting in 5 seconds...<br />';
 			}
 			echo '<a href="map.php?edit='.$from.'">Back</a>';
+			break;
+			
+		case 'delete_map':
+			$id = $db->escaped($_GET['id']);
+			$s = $db->query("DELETE FROM Maps WHERE id='$id'");
+			if ($s === FALSE) {
+				echo 'An error occured.<br />';
+			} else {
+				header("Refresh: 5; URL=map.php");
+				echo 'Complete; Redirecting in 5 seconds...<br />';
+			}
+			echo '<a href="map.php">Back</a>';
 			break;
 			
 		case 'delete_map_entity':
@@ -99,7 +122,7 @@ require "includes/common.php";
 			if ($s === FALSE) {
 				echo 'An error occured.<br />';
 			} else {
-				header("Refresh: 5; URL=map.php?edit=$id");
+				header("Refresh: 5; URL=map.php?edit=$from");
 				echo 'Complete; Redirecting in 5 seconds...<br />';
 			}
 			echo '<a href="map.php?edit='.$from.'">Back</a>';
@@ -119,7 +142,7 @@ require "includes/common.php";
 			if ($s === FALSE) {
 				echo 'An error occured.<br />';
 			} else {
-				header("Refresh: 5; URL=map.php?edit=$id");
+				header("Refresh: 5; URL=map.php?edit=$mapId");
 				echo 'Complete; Redirecting in 5 seconds...<br />';
 			}
 			echo '<a href="map.php?edit='.$mapId.'">Back</a>';
@@ -136,7 +159,7 @@ require "includes/common.php";
 			if ($s === FALSE) {
 				echo 'An error occured.<br />';
 			} else {
-				header("Refresh: 5; URL=map.php?edit=$id");
+				header("Refresh: 5; URL=map.php?edit=$mapId");
 				echo 'Complete; Redirecting in 5 seconds...<br />';
 			}
 			echo '<a href="map.php?edit='.$mapId.'">Back</a>';
