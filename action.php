@@ -21,7 +21,7 @@
 			}
 		?>
 	</table>
-	<form action = "submit.php?action=new_action">
+	<form action = "submit.php?action=new_action" method = "post">
 		<?php
 			$usable_actiontypes = get_action_types();
 			echo "<select>";

@@ -18,8 +18,7 @@
 		?>
 	</table>
 	
-	<!--TODO: upload_file.php needs to be coded-->
-	<form action = "submit.php?action=new_image">
+	<form action = "submit.php?action=new_image" method = "post">
 		<label for = "file">Filename:</label><br>
 		<input type = "file" name = "file" id = "file"><br>
 		Name: <input type = "text" name = "name"><br>
