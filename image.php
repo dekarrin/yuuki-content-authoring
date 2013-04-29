@@ -2,7 +2,7 @@
 <html>
 <body>
 
-	<h1>Content Packs</h1>
+	<h1>Image</h1>
 	<table border = 1>
 		<tr><td>ID</td><td>Filename</td><td>Contentpacks</td></tr>
 		<?php
