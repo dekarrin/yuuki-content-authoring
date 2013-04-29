@@ -1,20 +1,32 @@
 <?php
-
+require "includes/common.php";
 	switch($_GET['action']){
-		case 'new_entity':
-			
-			break;
 		case 'new_bgm':
-			
+			//file uploading stuff here.
 			break;
 		case 'new_sfx':
+			//fileuploading stuff here.
 			break;
 		case 'new_action':
-			$type =
+			$id;
+			$cid;
+			$actionTypeId = db->escaped($_POST['value']);
+			$q = query("INSERT INTO Actions(id, cid, actionTypeId VALUES ('$id', '$cid', '$actionTypeId')")
+			$db->query($q);
 			break;
 		case 'new_portal':
+			//file uploading stuff here
+			$filename = $some_file_name_idk;
+			$spriteId = $db->escaped($some_sprite_id);
+			$q = query("INSERT INTO Portals(id, cid, name, spriteId) VALUES ('','','$filename','$spriteId')");
+			$db->query($q);
 			break;
 		case 'new_image':
+			//uploading stuff here
+			$name = $db->escaped($some_file_name);
+			$cid = $db->escaped($_POST['contentpackname']);
+			$q = query("INSERT INTO Images(id, cid, filname, customIndex) VALUES ('', $cid, '$name', '')");
+			$db->query($q);
 			break;
 		case 'new_tile':
 			//file stuff needs to be done
@@ -24,7 +36,9 @@
 			//needs to be implemnted correctly
 			$contentpacks = $db->escaped($_POST['']);
 			
-			$q = query("INSERT INTO Tiles (id, cid, dataChar, name, traversable, spriteId) VALUES ('', '', $datachar, '$name', '%$traversable', '$sprite');
+			$q = query("INSERT INTO Tiles (id, cid, dataChar, name, traversable, spriteId)
+				VALUES ('', '', $datachar, '$name', '%$traversable', '$sprite')");
+			$db->query($q);
 			break;
 			
 		case 'new_map':
@@ -56,20 +70,14 @@
 				magicBase, magicGain, luckBase, luckGain) VALUES ('$xp', '$hpb', '$hpg', '$mpb', '$mpg',
 				'$strengthb', '$strengthg', '$defenseb', '$defenseg', '$agilityb', '$agilityg',
 				'$accuracyb', '$accuracyg', '$magicb', '$magicg', '$luckb', '$luckg')";
-			
+			$db->query($q);
 			break;
+			
 		case 'new_content_packs':
 			$name = $db->escaped($_POST['name']);
 			$q = "INSERT INTO ContentPacks (name) VALUES ('$name')";
 			$db->query($q);
 			break;
-	
-	
-	
-	
-	
-	
-	
 	}
 
 
