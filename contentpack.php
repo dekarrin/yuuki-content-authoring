@@ -6,7 +6,7 @@
 	<table border = 1>
 		<tr><td>ID</td><td>Name</td></tr>
 		<?php
-			$usable_contentpacks = get_contentpacks();
+			$usable_contentpacks = get_content_packs();
 			
 			foreach($usable_contentpacks as $u){
 				echo "<tr>";
