@@ -95,9 +95,11 @@
  *		[0] => Array (
  *			['id'], ['landId'], ['cid'],
  *			['portals']: Array (
- *				Portal -format, but adds ['x'] ['y'] ['destMapId'] ['destX'] ['destY']
+ *				Portal -format, but adds ['x'] ['y'] ['destMapId'] ['destX'] ['destY'] ['portalId'],
+ *				['id'] is actually the map portal id.
  *			['entities']: Array (
- *				Entity array, but adds ['x'] ['y'] ['level']
+ *				Entity array, but adds ['x'] ['y'] ['level'] ['entityId'],
+ *				['id'] is actually the map entity id.
  *
  * ActionType:
  * Array (

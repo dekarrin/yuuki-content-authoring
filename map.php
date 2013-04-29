@@ -58,6 +58,11 @@ if (!array_key_exists('edit', $_GET)) {
 		</table>
 <?php
 } else {
+	function check_land($l, $m) {
+		if ($l['id'] == $m['landId']) {
+			echo 'selected="selected"';
+		}
+	}
 	function check_ref($refed, $refer) {
 		if ($refed['id'] == $refer['cid']) {
 			echo 'selected="selected"';
@@ -69,12 +74,12 @@ if (!array_key_exists('edit', $_GET)) {
 		}
 	}
 	function check_portal($pt, $p) {
-		if ($p['id'] == $pt['id']) {
+		if ($p['portalId'] == $pt['id']) {
 			echo 'selected="selected"';
 		}
 	}
 	function check_entity($et, $e) {
-		if ($et['id'] == $e['id']) {
+		if ($et['id'] == $e['entityId']) {
 			echo 'selected="selected"';
 		}
 	}
@@ -103,6 +108,18 @@ if (!array_key_exists('edit', $_GET)) {
 		}
 ?>
 			</select>
+			<br />
+			<label>Land</label>
+			<select name="land_id">
+<?php
+		$lands = get_lands();
+		foreach ($lands as $l) {
+?>
+				<option value="<?php echo $l['id']; ?>" <?php check_land($l, $m); ?>><?php echo $l['name'];?></option>
+<?php
+		}
+?>
+			</select>
 			<input type="hidden" name="portal_count" value="<?php echo count($m['portals']); ?>" />
 			<input type="hidden" name="entity_count" value="<?php echo count($m['entities']); ?>" />
 			<table border="1">
@@ -124,7 +141,8 @@ if (!array_key_exists('edit', $_GET)) {
 ?>
 				<tr>
 					<td>(<input type="text" name="portal_x_<?php echo $i; ?>" value="<?php echo $p['x'];?>" />, <input type="text" name="portal_y_<?php echo $i; ?>" value="<?php echo $p['y'];?>" />)</td>
-					<td><select name="portal_dest_<?php echo $i; ?>">
+					<td><input type="hidden" name="portal_id_<?php echo $i; ?>" value="<?php echo $p['id']; ?>" />
+					<select name="portal_dest_<?php echo $i; ?>">
 <?php
 				foreach ($m_choices as $mc) {
 ?>
@@ -172,9 +190,10 @@ if (!array_key_exists('edit', $_GET)) {
 				$e = $m['entities'][$i];
 ?>
 				<tr>
-					<td>(<input type="text" name="entity_x_<?php echo $i; ?>" value="<?php echo $e['x'];?>" />, <input type="text" name="entity_y_<?php echo $i; ?>" value="<?php echo $p['y'];?>" />)</td>
+					<td>(<input type="text" name="entity_x_<?php echo $i; ?>" value="<?php echo $e['x'];?>" />, <input type="text" name="entity_y_<?php echo $i; ?>" value="<?php echo $e['y'];?>" />)</td>
 					<td><input type="text" name="entity_level_<?php echo $i; ?>" value="<?php echo $e['level']; ?>" /></td>
-					<td><select name="entity_type_<?php echo $i; ?>">
+					<td><input type="hidden" name="entity_id_<?php echo $i; ?>" value="<?php echo $e['id']; ?>" />
+					<select name="entity_type_<?php echo $i; ?>">
 <?php
 				foreach ($e_types as $et) {
 ?>

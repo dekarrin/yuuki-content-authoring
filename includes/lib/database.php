@@ -41,6 +41,7 @@ class Database
 		$result = mysql_query($query, $this->conn);
 		if ($result === FALSE) {
 			$this->set_errors();
+			echo $this->get_error();
 			return NULL;
 		}
 		return $result;
@@ -63,7 +64,7 @@ class Database
 		if (!is_null($params)) {
 			for ($i = count($params); $i > 0; $i--) {
 				$arg = $params[$i - 1];
-				$arg = $this->escape($arg);
+				$arg = $this->escaped($arg);
 				$stmt = str_replace('$' . $i, $arg, $stmt);
 			}
 		}
@@ -111,7 +112,7 @@ class Database
 		return mysql_affected_rows($this->conn);
 	}
 	
-	public function escape($str)
+	public function escaped($str)
 	{
 		return mysql_real_escape_string($str, $this->conn);
 	}

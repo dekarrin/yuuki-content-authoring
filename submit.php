@@ -80,7 +80,48 @@ require "includes/common.php";
 			break;
 			
 		case 'edit_map':
-			print_r($_POST);
+			$id = $db->escaped($_POST['id']);
+			$cid = $db->escaped($_POST['cid']);
+			$portal_count = (int) $_POST['portal_count'];
+			$entity_count = (int) $_POST['entity_count'];
+			$land_id = $db->escaped($_POST['land_id']);
+			$portals = array();
+			$entities = array();
+			for ($i = 0; $i < $portal_count; $i++) {
+				$p = array(
+					'portalId' => $db->escaped($_POST['portal_type_' . $i]),
+					'x' => $db->escaped($_POST['portal_x_' . $i]),
+					'y' => $db->escaped($_POST['portal_y_' . $i]),
+					'destMapId' => $db->escaped($_POST['portal_dest_' . $i]),
+					'destX' => $db->escaped($_POST['portal_dest_x_' . $i]),
+					'destY' => $db->escaped($_POST['portal_dest_y_' . $i])
+				);
+				$portals[$db->escaped($_POST['portal_id_' . $i])] = $p;
+			}
+			for ($i = 0; $i < $entity_count; $i++) {
+				$e = array(
+					'x' => $db->escaped($_POST['entity_x_' . $i]),
+					'y' => $db->escaped($_POST['entity_y_' . $i]),
+					'level' => $db->escaped($_POST['entity_level_' . $i]),
+					'entityId' => $db->escaped($_POST['entity_type_' . $i])
+				);
+				$entities[$db->escaped($_POST['entity_id_' . $i])] = $e;
+			}
+			$db->query("UPDATE Maps SET cid='$cid', landId='$land_id' WHERE id='$id'");
+			foreach ($portals as $p_id => $p) {
+				$db->query("UPDATE MapPortals SET portalId='{$p['portalId']}',
+				x='{$p['x']}', y='{$p['y']}', destMapId='{$p['destMapId']}',
+				destX='{$p['destX']}', destY='{$p['destY']}' WHERE id='$p_id'");
+			}
+			foreach ($entities as $e_id => $e) {
+				$db->query("UPDATE MapEntities SET entityId='{$e['entityId']}',
+				entityLevel='{$e['level']}', x='{$e['x']}', y='{$e['y']}'
+				WHERE id='$e_id'");
+			}
+			header("Refresh: 5; URL=map.php?edit=$id");
+			echo 'Complete; Redirecting in 5 seconds...<br />';
+			echo '<a href="map.php?edit='.$id.'">Back</a>';
+			break;
 	}
 
 
