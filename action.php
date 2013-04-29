@@ -42,6 +42,7 @@
 			}
 			echo "</select>";
 		?>
+		<input type="submit" value="Submit">
 	</form>
 	
 	<a href="bgm.php">Backround Music</a>
