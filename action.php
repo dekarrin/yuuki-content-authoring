@@ -21,7 +21,7 @@
 			}
 		?>
 	</table>
-	<form action "">
+	<form action = "submit.php?action=new_action">
 		<?php
 			$usable_actiontypes = get_action_types();
 			echo "<select>";
@@ -29,7 +29,7 @@
 				echo "<option value = '{$u['name']}'>{$u['name']}</option>";
 			}
 			echo "</select>";
-		
+			
 		?>
 		Action ID: <input type = "text" name "actionid">
 		position: <input type = "text" name "position">

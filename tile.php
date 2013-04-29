@@ -19,7 +19,7 @@
 	</table>
 	
 	<!--TODO: upload_file.php needs to be coded-->
-	<form action = "upload_file.php" method = "post" enctype = "multipart/form-data">
+	<form action = "submit.php?action=new_image">
 		<label for = "file">Filename:</label><br>
 		<input type = "file" name = "file" id = "file"><br>
 		Name: <input type = "text" name = "name"><br>

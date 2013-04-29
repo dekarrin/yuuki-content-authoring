@@ -21,8 +21,7 @@
 			}
 		?>
 	</table>
-	<form>
-	
+	<form action = "submit.php?action=new_newentity">
 		HP Base<input type="text" name="hpbase"><br>
 		HP Gain <input type="text" name="hpgain"><br>
 		MP Base: <input type="text" name="mpbase"><br>
