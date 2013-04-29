@@ -7,6 +7,11 @@ $maps = get_maps();
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>YCAT :: Maps</title>
+		<style>
+			input[type="text"] {
+				width: 30px;
+			}
+		</style>
 	</head>
 	<body>
 <?php
@@ -68,31 +73,44 @@ if (!array_key_exists('edit', $_GET)) {
 			echo 'selected="selected"';
 		}
 	}
+	function check_entity($et, $e) {
+		if ($et['id'] == $e['id']) {
+			echo 'selected="selected"';
+		}
+	}
 	// _GET['edit'] is set
 	$edit_id = $_GET['edit'];
 	$m = get_map_by_id($edit_id);
-	$cps = get_content_packs();
+	if (is_null($m)) {
+?>
+		<h3>Unknown Map</h3>
+		<p><a href="map.php">Back</a></p>
+<?php
+	} else {
+		$cps = get_content_packs();
 ?>
 		<h3>Editing Map #<?php echo $edit_id; ?></h3>
+		<p><a href="map.php">Back</a></p>
 		<form action="submit.php?action=edit_map" method="post">
 			<input type="hidden" name="id" value="<?php echo $edit_id; ?>" />
 			<label>Content Pack</label>
 			<select name="cid">
 <?php
-	foreach ($cps as $c) {
+		foreach ($cps as $c) {
 ?>
 				<option value="<?php echo $c['id']; ?>" <?php check_ref($c, $m); ?>><?php echo $c['name']; ?></option>
 <?php
-	}
+		}
 ?>
 			</select>
 			<input type="hidden" name="portal_count" value="<?php echo count($m['portals']); ?>" />
+			<input type="hidden" name="entity_count" value="<?php echo count($m['entities']); ?>" />
 			<table border="1">
 				<caption>Portals</caption>
 <?php
-	if (!empty($m['portals'])) {
-		$p_types = get_portals();
-		$m_choices = get_maps();
+		if (!empty($m['portals'])) {
+			$p_types = get_portals();
+			$m_choices = get_maps();
 ?>
 				<tr>
 					<th>Coordinates</th>
@@ -101,44 +119,88 @@ if (!array_key_exists('edit', $_GET)) {
 					<th>Type</th>
 				</tr>
 <?php
-		for ($i = 0; $i < count($m['portals']); $i++) {
-			$p = $m['portals'][$i];
+			for ($i = 0; $i < count($m['portals']); $i++) {
+				$p = $m['portals'][$i];
 ?>
 				<tr>
 					<td>(<input type="text" name="portal_x_<?php echo $i; ?>" value="<?php echo $p['x'];?>" />, <input type="text" name="portal_y_<?php echo $i; ?>" value="<?php echo $p['y'];?>" />)</td>
 					<td><select name="portal_dest_<?php echo $i; ?>">
 <?php
-			foreach ($m_choices as $mc) {
+				foreach ($m_choices as $mc) {
 ?>
 						<option value="<?php echo $mc['id']; ?>" <?php check_map($mc, $p); ?>><?php echo $mc['id']; ?></option>
 <?php
-			}
+				}
 ?>
 					</select></td>
 					<td>(<input type="text" name="portal_dest_x_<?php echo $i; ?>" value="<?php echo $p['destX'];?>" />, <input type="text" name="portal_dest_y_<?php echo $i; ?>" value="<?php echo $p['destY'];?>" />)</td>
 					<td><select name="portal_type_<?php echo $i; ?>">
 <?php
-			foreach ($p_types as $pt) {
+				foreach ($p_types as $pt) {
 ?>
 						<option value="<?php echo $pt['id']; ?>" <?php check_portal($pt, $p); ?>><?php echo $pt['name']; ?></option>
 <?php	
-			}
+				}
 ?>
 					</select></td>
 				</tr>
 <?php
-		}
-	} else {
+			}
+		} else {
 ?>
+				<tr>
+					<td>There are currently no portals in this map</td>
+				</tr>
 <?php
-	}
+		}
 ?>
 			</table>
-			<table>
+			<br />
+			<table border="1">
 				<caption>Entities</caption>
-				<td>
-		</form>
 <?php
+		if (!empty($m['entities'])) {
+			$e_types = get_entities();
+?>
+				<tr>
+					<th>Coordinates</th>
+					<th>Level</th>
+					<th>Type</th>
+				</tr>
+<?php
+			for ($i = 0; $i < count($m['entities']); $i++) {
+				$e = $m['entities'][$i];
+?>
+				<tr>
+					<td>(<input type="text" name="entity_x_<?php echo $i; ?>" value="<?php echo $e['x'];?>" />, <input type="text" name="entity_y_<?php echo $i; ?>" value="<?php echo $p['y'];?>" />)</td>
+					<td><input type="text" name="entity_level_<?php echo $i; ?>" value="<?php echo $e['level']; ?>" /></td>
+					<td><select name="entity_type_<?php echo $i; ?>">
+<?php
+				foreach ($e_types as $et) {
+?>
+						<option value="<?php echo $et['id']; ?>" <?php check_entity($et, $e); ?>><?php echo $et['name'] ?></option>
+<?php
+				}
+?>
+					</select></td>
+				</tr>
+<?php
+			}
+		} else {
+?>
+				<tr>
+					<td>There are currently no entities in this map</td>
+				</tr>
+<?php
+		}
+?>
+			</table>
+			<br />
+			<input type="submit" value="Update" />
+		</form>
+		<p><a href="map.php">Back</a></p>
+<?php
+	}
 }
 ?>
 	</body>
