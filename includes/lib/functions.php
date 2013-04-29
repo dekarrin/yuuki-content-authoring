@@ -98,6 +98,11 @@
  *				Portal -format, but adds ['x'] ['y'] ['destMapId'] ['destX'] ['destY']
  *			['entities']: Array (
  *				Entity array, but adds ['x'] ['y'] ['level']
+ *
+ * ActionType:
+ * Array (
+ *		[0] => Array (
+ *			['id'], ['name']
  */
 
 /**
@@ -200,6 +205,14 @@ function get_sfx($cid = NULL) {
 	$stmt = (is_null($cid)) ? 'get_sfx' : 'get_sfx_for_cid';
 	$sfx = $db->prepared_select($stmt, $args);
 	return $sfx;
+}
+
+/**
+ * Gets all action types.
+ */
+function get_action_types() {
+	global $db;
+	return $db->prepared_select('get_action_types');
 }
 
 /**
