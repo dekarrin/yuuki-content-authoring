@@ -154,6 +154,16 @@ function get_tiles($cid = NULL) {
 }
 
 /**
+ * Gets all tiles for a land.
+ * $land_id - The id of the land to get tiles for.
+ * Returns an array of Tile format arrays.
+ */
+function get_tiles_for_land_id($land_id) {
+	global $db;
+	return $db->prepared_select('get_tiles_for_land_id', array($land_id));
+}
+
+/**
  * Gets all portals for a content pack
  * $cid - The id of the content pack to get portals for; set to NULL for all
  * content packs.
@@ -309,6 +319,15 @@ function set_action_params(&$actions) {
 	foreach ($actions as &$a) {
 		$a['params'] = $db->prepared_select('get_action_params', array($a['id']));
 	}
+}
+
+/**
+ * Accepts an array of tile arrays and outputs the appropriate data string.
+ * $land_id - The id of the land to do this for.
+ * Returns the land data as a string.
+ */
+function land_to_string($land_id) {
+	return "";
 }
 
 ?>
