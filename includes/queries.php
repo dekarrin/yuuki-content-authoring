@@ -150,4 +150,39 @@ ON t.id = lt.tileId
 INNER JOIN Images AS i
 ON i.id = t.spriteId
 WHERE lt.landId = \'$1\'');
+
+$db->prepare('get_maps',
+'SELECT *
+FROM Maps');
+
+$db->prepare('get_maps_for_cid',
+'SELECT *
+FROM Maps
+WHERE cid = \'$1\'');
+
+$db->prepare('get_map_portals_for_map_id',
+'SELECT mp.x, mp.y, mp.destMapId, mp.destX,
+mp.destY, p.id, p.cid, p.name,
+i.filename "sprite"
+FROM MapPortals AS mp
+INNER JOIN Portals AS p
+ON mp.portalId = p.id
+INNER JOIN Images AS i
+ON p.spriteId = i.id
+WHERE mp.mapId = \'$1\'');
+
+$db->prepare('get_map_entities_for_map_id',
+'SELECT e.id, e.cid, e.name, i.filename "sprite",
+e.xp, e.hpBase, e.hpGain, e.mpBase, e.mpGain,
+e.strengthBase, e.strengthGain, e.defenseBase,
+e.defenseGain, e.agilityBase, e.agilityGain,
+e.accuracyBase, e.accuracyGain, e.magicBase,
+e.magicGain, e.luckBase, e.luckGain,
+me.entityLevel "level", me.x, me.y
+FROM MapEntities AS me
+INNER JOIN Entities AS e
+ON me.entityId = e.id
+INNER JOIN Images AS i
+ON e.spriteId = i.id
+WHERE me.mapId = \'$1\'');
 ?>

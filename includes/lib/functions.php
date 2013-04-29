@@ -95,11 +95,9 @@
  *		[0] => Array (
  *			['id'], ['landId'], ['cid'],
  *			['portals']: Array (
- *				['portal']: Portal array
- *				['x'] ['y'] ['destMapId'] ['destX'] ['destY']
+ *				Portal -format, but adds ['x'] ['y'] ['destMapId'] ['destX'] ['destY']
  *			['entities']: Array (
- *				['entity']: Entity array
- *				['x'] ['y'] ['level']
+ *				Entity array, but adds ['x'] ['y'] ['level']
  */
 
 /**
@@ -232,6 +230,32 @@ function get_lands($cid = NULL) {
 		$l['tile'] = $db->prepared_select('get_land_tiles_for_land_id', array($l['id']));
 	}
 	return $lands;
+}
+
+/**
+ * Returns the Land with the given id.
+ */
+function get_land_by_id($id) {
+	global $db;
+	return $db->prepared_select('get_lands_for_id', array($id));
+}
+
+/**
+ * Gets all maps for a content pack
+ * $cid - The id of the content pack to get maps for; set to NULL for all
+ * content packs.
+ * Returns an array of Map format arrays.
+ */
+function get_maps($cid = NULL) {
+	global $db;
+	$args = (is_null($cid)) ? NULL : array($cid);
+	$stmt = (is_null($cid)) ? 'get_maps' : 'get_maps_for_cid';
+	$maps = $db->prepared_select($stmt, $args);
+	foreach ($maps as &$m) {
+		$m['portals'] = $db->prepared_select('get_map_portals_for_map_id', array($m['id']));
+		$m['entities'] = $db->prepared_select('get_map_entities_for_map_id', array($m['id']));
+	}
+	return $maps;
 }
 
 /**

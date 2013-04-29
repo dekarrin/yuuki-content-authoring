@@ -439,7 +439,7 @@ ON DLands.id = Dests.landId
 INNER JOIN ContentPacks AS DContents
 ON DContents.id = Dests.cid
 WHERE P.name = 'teleporter' AND PContents.name = 'BuiltIn' AND
-OLands.name = 'Ponyland' AND OContents.name = 'test-ah1' AND
+OLands.name = 'Pony Land' AND OContents.name = 'test-ah1' AND
 DLands.name = 'Houseville' AND DContents.name = 'test-ah1';
 
 INSERT INTO LandTiles (landId, tileid, x, y)
