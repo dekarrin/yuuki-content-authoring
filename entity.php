@@ -42,7 +42,14 @@
 		Mame: <input type="text" name="name"><br>
 		XP Given on Death: <input type="text" name="xpgiven"><br>
 		
-		
+		<?php
+			$usable_content_packs = get_content_packs();
+			echo "<select>";
+			foreach($usable_content_packs as $u){
+				echo "<option value=\"{$u['name']}\">{$u['name']}</option>";
+			}
+			echo "</select>";
+		?>
 		<input type="submit" value="Submit">
 	</form>
 	

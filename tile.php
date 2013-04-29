@@ -11,7 +11,7 @@
 			foreach($usable_tiles as $u){
 				echo "<tr>";
 				echo "<td>{$u['id']}</td><td>{$u['name']}</td><td>{$u['cid']}</td>
-					<td>{$u['datachar']}</td><td>{$u['traversable']}</td>
+					<td>{$u['dataChar']}</td><td>{$u['traversable']}</td>
 					<td>{$u['sprite']}	</td>";
 				echo "</tr>";
 			}
@@ -20,13 +20,21 @@
 	
 	<!--TODO: upload_file.php needs to be coded-->
 	<form action = "upload_file.php" method = "post" enctype = "multipart/form-data">
-		<label for = "file">Filename:</label>
+		<label for = "file">Filename:</label><br>
 		<input type = "file" name = "file" id = "file"><br>
-		Name: <input type = "text" name = "name">
+		Name: <input type = "text" name = "name"><br>
 		Traversable: <input type = "radio" name = "traversable" value = "true">True
-		<input type = "radio" name = "traversable" value = "false">False
-		Data Character: <input type = "text" name = "datachar">
-		<input type = "submit" name = "submit" value = "Submit">
+		<input type = "radio" name = "traversable" value = "false">False<br>
+		Data Character: <input type = "text" name = "datachar"><br>
+		<input type = "submit" name = "submit" value = "Submit"><br>
+		<?php
+			$usable_content_packs = get_content_packs();
+			echo "<select>";
+			foreach($usable_content_packs as $u){
+				echo "<option value=\"{$u['name']}\">{$u['name']}</option>";
+			}
+			echo "</select>";
+		?>
 	</form>
 	
 	<a href="bgm.php">Backround Music</a>

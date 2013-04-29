@@ -2,7 +2,7 @@
 <html>
 <body>
 
-	<h1>Content Packs</h1>
+	<h1>Portals</h1>
 	<table border = 1>
 		<tr><td>ID</td><td>Name</td><td>ContenPack</td><td>Sprite</td></tr>
 		<?php
@@ -22,6 +22,14 @@
 		<label for = "file">Filename:</label>
 		<input type = "file" name = "file" id = "file"<br>
 		<input type = "submit" name = "submit" value = "Submit">
+		<?php
+			$usable_content_packs = get_content_packs();
+			echo "<select>";
+			foreach($usable_content_packs as $u){
+				echo "<option value=\"{$u['name']}\">{$u['name']}</option>";
+			}
+			echo "</select>";
+		?>
 	</form>
 	
 	<a href="bgm.php">Backround Music</a>

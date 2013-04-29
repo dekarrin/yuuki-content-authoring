@@ -19,8 +19,16 @@
 	<!--TODO: upload_file.php needs to be coded-->
 	<form action = "upload_file.php" method = "post" enctype = "multipart/form-data">
 		<label for = "file">Filename:</label>
-		<input type = "file" name = "file" id = "file"<br>
+		<input type = "file" name = "file" id = "file"/><br>
 		<input type = "submit" name = "submit" value = "Submit">
+		<?php
+			$usable_content_packs = get_content_packs();
+			echo "<select>";
+			foreach($usable_content_packs as $u){
+				echo "<option value=\"{$u['name']}\">{$u['name']}</option>";
+			}
+			echo "</select>";
+		?>
 	</form>
 	
 	<a href="bgm.php">Backround Music</a>

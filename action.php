@@ -34,6 +34,14 @@
 		Action ID: <input type = "text" name "actionid">
 		position: <input type = "text" name "position">
 		value: <input type = "text" name "value">
+		<?php
+			$usable_content_packs = get_content_packs();
+			echo "<select>";
+			foreach($usable_content_packs as $u){
+				echo "<option value=\"{$u['name']}\">{$u['name']}</option>";
+			}
+			echo "</select>";
+		?>
 	</form>
 	
 	<a href="bgm.php">Backround Music</a>
