@@ -79,6 +79,69 @@ require "includes/common.php";
 			$db->query($q);
 			break;
 			
+		case 'delete_map_portal':
+			$id = $db->escaped($_GET['id']);
+			$from = $db->escaped($_GET['from']);
+			$s = $db->query("DELETE FROM MapPortals WHERE id='$id'");
+			if ($s === FALSE) {
+				echo 'An error occured.<br />';
+			} else {
+				header("Refresh: 5; URL=map.php?edit=$id");
+				echo 'Complete; Redirecting in 5 seconds...<br />';
+			}
+			echo '<a href="map.php?edit='.$from.'">Back</a>';
+			break;
+			
+		case 'delete_map_entity':
+			$id = $db->escaped($_GET['id']);
+			$from = $db->escaped($_GET['from']);
+			$s = $db->query("DELETE FROM MapEntities WHERE id='$id'");
+			if ($s === FALSE) {
+				echo 'An error occured.<br />';
+			} else {
+				header("Refresh: 5; URL=map.php?edit=$id");
+				echo 'Complete; Redirecting in 5 seconds...<br />';
+			}
+			echo '<a href="map.php?edit='.$from.'">Back</a>';
+			break;
+		
+		case 'new_map_portal':
+			$mapId = $db->escaped($_POST['map_id']);
+			$portalId = $db->escaped($_POST['type']);
+			$destMapId = $db->escaped($_POST['dest_map_id']);
+			$x = $db->escaped($_POST['x']);
+			$y = $db->escaped($_POST['y']);
+			$destX = $db->escaped($_POST['dest_x']);
+			$destY = $db->escaped($_POST['dest_y']);
+			$s = $db->query("INSERT INTO MapPortals (portalId, mapId, x, y,
+			destMapId, destX, destY) VALUES ('$portalId', '$mapId', '$x', '$y',
+			'$destMapId', '$destX', '$destY')");
+			if ($s === FALSE) {
+				echo 'An error occured.<br />';
+			} else {
+				header("Refresh: 5; URL=map.php?edit=$id");
+				echo 'Complete; Redirecting in 5 seconds...<br />';
+			}
+			echo '<a href="map.php?edit='.$mapId.'">Back</a>';
+			break;
+		
+		case 'new_map_entity':
+			$mapId = $db->escaped($_POST['map_id']);
+			$entityId = $db->escaped($_POST['type']);
+			$entityLevel = $db->escaped($_POST['level']);
+			$x = $db->escaped($_POST['x']);
+			$y = $db->escaped($_POST['y']);
+			$s = $db->query("INSERT INTO MapEntities (entityId, mapId, entityLevel, x, y)
+			VALUES ($entityId, $mapId, $entityLevel, $x, $y)");
+			if ($s === FALSE) {
+				echo 'An error occured.<br />';
+			} else {
+				header("Refresh: 5; URL=map.php?edit=$id");
+				echo 'Complete; Redirecting in 5 seconds...<br />';
+			}
+			echo '<a href="map.php?edit='.$mapId.'">Back</a>';
+			break;
+			
 		case 'edit_map':
 			$id = $db->escaped($_POST['id']);
 			$cid = $db->escaped($_POST['cid']);

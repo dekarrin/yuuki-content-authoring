@@ -134,6 +134,7 @@ if (!array_key_exists('edit', $_GET)) {
 					<th>Destination Map</th>
 					<th>Destination Coordinates</th>
 					<th>Type</th>
+					<th>&nbsp;</th>
 				</tr>
 <?php
 			for ($i = 0; $i < count($m['portals']); $i++) {
@@ -161,6 +162,7 @@ if (!array_key_exists('edit', $_GET)) {
 				}
 ?>
 					</select></td>
+					<td><a href="submit.php?action=delete_map_portal&id=<?php echo $p['id']; ?>&from=<?php echo $edit_id; ?>">Delete</a></td>
 				</tr>
 <?php
 			}
@@ -184,6 +186,7 @@ if (!array_key_exists('edit', $_GET)) {
 					<th>Coordinates</th>
 					<th>Level</th>
 					<th>Type</th>
+					<th>&nbsp;</th>
 				</tr>
 <?php
 			for ($i = 0; $i < count($m['entities']); $i++) {
@@ -202,6 +205,7 @@ if (!array_key_exists('edit', $_GET)) {
 				}
 ?>
 					</select></td>
+					<td><a href="submit.php?action=delete_map_entity&id=<?php echo $e['id']; ?>&from=<?php echo $edit_id; ?>">Delete</a></td>
 				</tr>
 <?php
 			}
@@ -216,6 +220,65 @@ if (!array_key_exists('edit', $_GET)) {
 			</table>
 			<br />
 			<input type="submit" value="Update" />
+		</form>
+		<hr />
+		<form action="submit.php?action=new_map_portal" method="post">
+			<input type="hidden" name="map_id" value="<?php echo $edit_id; ?>" />
+			<table border="1">
+				<tr>
+					<th>Coordinates</th>
+					<th>Destination Map</th>
+					<th>Destination Coordinates</th>
+					<th>Type</th>
+					<th>&nbsp;</th>
+				</tr>
+				<tr>
+					<td>(<input type="text" name="x" />, <input type="text" name="y" />)</td>
+					<td><select name="dest_map_id">
+<?php
+		$maps = get_maps();
+		foreach ($maps as $m) {
+			echo "\t\t\t\t\t" . '<option value="' . $m['id'] . '">' . $m['id'] . '</option>' . "\n";
+		}
+?>
+					</select></td>
+					<td>(<input type="text" name="dest_x" />, <input type="text" name="dest_y" />)</td>
+					<td><select name="type">
+<?php
+		$portals = get_portals();
+		foreach ($portals as $p) {
+			echo "\t\t\t\t\t" . '<option value="' . $p['id'] . '">' . $p['name'] . '</option>' . "\n";
+		}
+?>
+					</select></td>
+					<td><input type="submit" value="Add Portal" /></td>
+				</tr>
+			</table>
+		</form>
+		<hr />
+		<form action="submit.php?action=new_map_entity" method="post">
+			<input type="hidden" name="map_id" value="<?php echo $edit_id; ?>" />
+			<table border="1">
+				<tr>
+					<th>Coordinates</th>
+					<th>Level</th>
+					<th>Type</th>
+					<th>&nbsp;</th>
+				</tr>
+				<tr>
+					<td>(<input type="text" name="x" />, <input type="text" name="y" />)</td>
+					<td><input type="text" name="level" /></td>
+					<td><select name="type">
+<?php
+		$entities = get_entities();
+		foreach ($entities as $e) {
+			echo "\t\t\t\t\t" . '<option value="' . $e['id'] . '">' . $e['name'] . '</option>' . "\n";
+		}
+?>
+					</select></td>
+					<td><input type="submit" value="Add Entity" /></td>
+				</tr>
+			</table>
 		</form>
 		<p><a href="map.php">Back</a></p>
 <?php
