@@ -185,4 +185,6 @@ ON me.entityId = e.id
 INNER JOIN Images AS i
 ON e.spriteId = i.id
 WHERE me.mapId = \'$1\'');
+
+$db->prepare('get_action_types', 'SELECT * FROM ActionTypes');
 ?>
