@@ -10,8 +10,8 @@ require "includes/common.php";
 		case 'new_action':
 			$id;
 			$cid;
-			$actionTypeId = db->escaped($_POST['value']);
-			$q = query("INSERT INTO Actions(id, cid, actionTypeId VALUES ('$id', '$cid', '$actionTypeId')")
+			$actionTypeId = $db->escaped($_POST['value']);
+			$q = query("INSERT INTO Actions(id, cid, actionTypeId VALUES ('$id', '$cid', '$actionTypeId')");
 			$db->query($q);
 			break;
 		case 'new_portal':
@@ -78,6 +78,9 @@ require "includes/common.php";
 			$q = "INSERT INTO ContentPacks (name) VALUES ('$name')";
 			$db->query($q);
 			break;
+			
+		case 'edit_map':
+			print_r($_POST);
 	}
 
 
