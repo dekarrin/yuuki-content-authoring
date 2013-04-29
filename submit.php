@@ -3,9 +3,23 @@ require "includes/common.php";
 	switch($_GET['action']){
 		case 'new_bgm':
 			//file uploading stuff here.
+			
+			//$filename = $some_other_file_name;
+			//$id = $db->escaped($_POST['id']);
+			//$cid = $db->escaped($_POST['cid']);
+			//$customIndex = $db->escaped($_POST['customIndex'];
+			//$q = query("INSERT INTO SoundEffects(id, cid, filename, customIndex) VALUES('$id','$cid','$filename','$customIndex')";
+			
 			break;
 		case 'new_sfx':
 			//fileuploading stuff here.
+			
+			//$filename = $some_other_file_name;
+			//$id = $db->escaped($_POST['id']);
+			//$cid = $db->escaped($_POST['cid']);
+			//$customIndex = $db->escaped($_POST['customIndex'];
+			//$q = query("INSERT INTO SoundEffects(id, cid, filename, customIndex) VALUES('$id','$cid','$filename','$customIndex')";
+			
 			break;
 		case 'new_action':
 			$id;
@@ -23,9 +37,9 @@ require "includes/common.php";
 			break;
 		case 'new_image':
 			//uploading stuff here
-			$name = $db->escaped($some_file_name);
-			$cid = $db->escaped($_POST['contentpackname']);
-			$q = query("INSERT INTO Images(id, cid, filname, customIndex) VALUES ('', $cid, '$name', '')");
+			//$name = $db->escaped($some_file_name);
+			//$cid = $db->escaped($_POST['contentpackname']);
+			//$q = query("INSERT INTO Images(id, cid, filname, customIndex) VALUES ('', $cid, '$name', '')");
 			$db->query($q);
 			break;
 		case 'new_tile':

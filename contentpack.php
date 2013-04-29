@@ -17,8 +17,8 @@
 		?>
 	</table>
 	
-	<form action = "submit.php?action=new_image" method = "post">
-		Content Pack name: <input type="text" name="firstname">
+	<form action = "submit.php?action=new_content_packs" method = "post">
+		Content Pack name: <input type="text" name="name">
 	<input type = "submit" value = "Submit">
 	</form>
 	
