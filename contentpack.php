@@ -22,5 +22,15 @@
 		Content Pack name: <input type="text" name="firstname">
 	<input type = "submit" value = "Submit">
 	</form>
+	
+	<a href="bgm.php">Backround Music</a>
+		<a href="sfx.php">Sound Effects</a>
+		<a href="contentpack.php">Content Packs</a>
+		<a href="image.php">Image</a>
+		<a href="action.php">Actions</a>
+		<a href="portal.php">Portal</a>
+		<a href="entity.php">Entity</a>
+		<a href="tile.php">Tile</a>
+		<a href="map.php">Map</a>
 </body>
 </html>
