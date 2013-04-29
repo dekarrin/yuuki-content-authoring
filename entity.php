@@ -16,7 +16,7 @@
 				{$u['hpBase']}<td>{$u['hpGain']}</td><td>{$u['mpBase']}</td><td>{$u['mpGain']}</td>
 				<td>{$u['strengthBase']}</td><td></td><td>{$u['strengthGain']}</td><td>{$u['defenseBase']}</td><td>{$u['defenseGain']}</td>
 				<td>{$u['agilityBase']}</td><td>{$u['agilityGain']}</td><td>{$u['accuracyBase']}</td><td>{$u['accuracyGain']}</td>
-				<td>{$u['magicBase']}</td><td>{$u['magicGain']}</td><td><{$u['luckBase']}/td><td>{$u['luckGain']}</td><td>{$u['xp']}</td>";
+				<td>{$u['magicBase']}</td><td>{$u['magicGain']}</td><td>{$u['luckBase']}</td><td>{$u['luckGain']}</td><td>{$u['xp']}</td>";
 				echo "</tr>";
 			}
 		?>
