@@ -70,6 +70,37 @@
  *			['cid'] => (int - The ID of the content pack)
  *			['filename'] => (string - The location on server of the image file)
  *			['customIndex'] => (string - The fake foreign key used in exported files)
+ *
+ * ContentPack:
+ * Array (
+ *		[0] => Array (
+ *			['id'] => (int - The ID)
+ *			['name'] => (string - The name of the content pack)
+ *			['isBase'] => (bool - Whether this content pack is included in Yuuki)
+ *			['spriteDir'] => (string - Where entity sprites are located)
+ *			['tileDir'] => (string - Where tile sprites are located)
+ *			['bgDir'] => (string - Where background images are located)
+ *			['portalDir'] => (string - Where portal sprites are located)
+ *
+ * Land:
+ * Array (
+ *		[0] => Array (
+ *			['id'], ['cid'], ['name'], ['startX'], ['startY'] - player start coords
+ *			['width'], ['height'],
+ *			['tiles']: Array (
+ *				['tile']: Tile Array
+ *				['x'], ['y']
+ *				
+ * Map:
+ * Array (
+ *		[0] => Array (
+ *			['id'], ['landId'], ['cid'],
+ *			['portals']: Array (
+ *				['portal']: Portal array
+ *				['x'] ['y'] ['destMapId'] ['destX'] ['destY']
+ *			['entities']: Array (
+ *				['entity']: Entity array
+ *				['x'] ['y'] ['level']
  */
 
 /**
@@ -172,6 +203,19 @@ function get_sfx($cid = NULL) {
 	$stmt = (is_null($cid)) ? 'get_sfx' : 'get_sfx_for_cid';
 	$sfx = $db->prepared_select($stmt, $args);
 	return $sfx;
+}
+
+/**
+ * Gets content packs.
+ * $id - The id of the content pack to get; set to null for all content packs.
+ * Returns an array of ContentPack format arrays.
+ */
+function get_content_packs($id = NULL) {
+	global $db;
+	$args = (is_null($id)) ? NULL : array($id);
+	$stmt = (is_null($id)) ? 'get_content_packs' : 'get_content_packs_for_id';
+	$cps = $db->prepared_select($stmt, $args);
+	return $cps;
 }
 
 /**
