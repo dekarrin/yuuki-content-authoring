@@ -4,7 +4,7 @@
 
 	<h1>Content Packs</h1>
 	<table border = 1>
-		<tr><td>&nbsp;</td><td>Name</td></tr>
+		<tr><th>&nbsp;</th><th>Name</th></tr>
 		<?php
 			$usable_contentpacks = get_content_packs();
 			

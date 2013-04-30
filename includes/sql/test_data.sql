@@ -349,12 +349,12 @@ FROM ContentPacks AS C, Images AS I
 WHERE C.name = 'test-ae1' AND I.customIndex = 'PORTAL_ZINGER';
 
 INSERT INTO Tiles (cid, dataChar, name, traversable, spriteId)
-SELECT C.id, '#', 'wall', 'false', I.id
+SELECT C.id, '#', 'wall', '0', I.id
 FROM ContentPacks AS C, Images AS I
 WHERE C.name = 'BuiltIn' AND I.customIndex = 'TILE_WALL';
 
 INSERT INTO Tiles (cid, dataChar, name, traversable, spriteId)
-SELECT C.id, '.', 'floor', 'true', I.id
+SELECT C.id, '.', 'floor', '1', I.id
 FROM ContentPacks AS C, Images AS I
 WHERE C.name = 'BuiltIn' AND I.customIndex = 'TILE_FLOOR';
 

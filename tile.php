@@ -4,14 +4,17 @@
 
 	<h1>Tiles</h1>
 	<table border = 1>
-		<tr><td>ID</td><td>Name</td><td>Content Pack</td><td>Data Character</td><td>Traversable</td><td>Sprite</td></tr>
+		<tr><th>ID</th><th>Name</th><th>Content Pack</th><th>Data Character</th><th>Traversable</th><th>Sprite</th></tr>
 		<?php
 			$usable_tiles = get_tiles();
 			
 			foreach($usable_tiles as $u){
+				$cps = get_content_packs($u['cid']);
+				$c = $cps[0];
+				$t = ($u['traversable'] == '1') ? 'Yes' : 'No';
 				echo "<tr>";
-				echo "<td>{$u['id']}</td><td>{$u['name']}</td><td>{$u['cid']}</td>
-					<td>{$u['dataChar']}</td><td>{$u['traversable']}</td>
+				echo "<td>{$u['id']}</td><td>{$u['name']}</td><td>{$c['name']}</td>
+					<td>{$u['dataChar']}</td><td>$t</td>
 					<td>{$u['sprite']}	</td>";
 				echo "</tr>";
 			}

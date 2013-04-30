@@ -4,13 +4,15 @@
 
 	<h1>Image</h1>
 	<table border = 1>
-		<tr><td>ID</td><td>Filename</td><td>Contentpacks</td></tr>
+		<tr><th>ID</th><th>Filename</th><th>Content Pack</th></tr>
 		<?php
 			$usable_image = get_images();
 			
 			foreach($usable_image as $u){
+				$cps = get_content_packs($u['cid']);
+				$c = $cps[0];
 				echo "<tr>";
-				echo "<td>{$u['id']}</td><td>{$u['filename']}</td><td>{$u['cid']}</td>";
+				echo "<td>{$u['id']}</td><td>{$u['filename']}</td><td>{$c['name']}</td>";
 				echo "</tr>";
 			}
 		?>

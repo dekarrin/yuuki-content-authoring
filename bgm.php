@@ -4,12 +4,14 @@
 
 	<h1>Backround Music</h1>
 	<table border = 1>
-		<tr><td>Index</td><td>File Name</td><td>Content Pack</td></tr>
+		<tr><th>Index</th><th>File Name</th><th>Content Pack</th></tr>
 		<?php
 			$usable_bgm = get_bgm();	
 			foreach($usable_bgm as $u){
+				$cps = get_content_packs($u['cid']);
+				$c = $cps[0];
 				echo "<tr>";
-				echo "<td>{$u['id']}</td><td>{$u['filename']}</td><td>{$u['cid']}</td>";
+				echo "<td>{$u['id']}</td><td>{$u['filename']}</td><td>{$c['name']}</td>";
 				echo "</tr>";
 			}
 		?>

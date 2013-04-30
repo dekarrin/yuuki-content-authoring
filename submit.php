@@ -59,11 +59,11 @@ function check_confirm($type, $table, $target, $refs) {
 			$db->query($q);
 			break;
 		case 'new_portal':
-			//file uploading stuff here
-			$filename = $some_file_name_idk;
-			$spriteId = $db->escaped($some_sprite_id);
-			$q = query("INSERT INTO Portals(id, cid, name, spriteId) VALUES ('','','$filename','$spriteId')");
-			$db->query($q);
+			$spriteId = $db->escaped($_POST['spriteid']);
+			$name = $db->escaped($_POST['name']);
+			$cid = $db->escaped($_POST['cid']);
+			$s = $db->query("INSERT INTO Portals(cid, name, spriteId) VALUES ('$cid', '$name', '$spriteId')");
+			show_success($s, 'portal.php');
 			break;
 		case 'new_image':
 			//uploading stuff here
@@ -195,6 +195,12 @@ function check_confirm($type, $table, $target, $refs) {
 				array('Images', 'cid'),
 				array('Portals', 'cid'),
 				array('Tiles', 'cid')
+			));
+			break;
+			
+		case 'delete_portal':
+			check_confirm('portal', 'Portals', 'portal.php', array(
+				array('MapPortals', 'portalId')
 			));
 			break;
 			

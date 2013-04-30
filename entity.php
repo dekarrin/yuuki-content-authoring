@@ -11,9 +11,9 @@
 
 	<h1>Entity</h1>
 	<table border = 1>
-		<tr><td>&nbsp;</td><td>Name</td><td>Sprite</td><td>Contentpacks</td><td>HP Base</td><td>HP gain</td><td>MP Base</td><td>MP Gain</td><td>Strenth Base</td><td>Strength Gain</td>
-			<td>Defense Base</td><td>Defense Gain</td><td>Agility Base</td><td>Agility Gain</td><td>Accuracy Base</td><td>Accuracy Gain</td><td>Magic Base</td><td>Magic Gain</td>
-			<td>Luck Base</td><td>Luck Gain</td><td>XP given on death</td></tr>
+		<tr><th>&nbsp;</th><th>Name</th><th>Sprite</th><th>Content Pack</th><th>HP Base</th><th>HP gain</th><th>MP Base</th><th>MP Gain</th><th>Strenth Base</th><th>Strength Gain</th>
+			<th>Defense Base</th><th>Defense Gain</th><th>Agility Base</th><th>Agility Gain</th><th>Accuracy Base</th><th>Accuracy Gain</th><th>Magic Base</th><th>Magic Gain</th>
+			<th>Luck Base</th><th>Luck Gain</th><th>XP given on death</th></tr>
 		<?php
 			$usable_entities = get_entities();
 			

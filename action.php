@@ -4,19 +4,23 @@
 
 	<h1>Actions</h1>
 	<table border = 1>
-		<tr><td>ID</td><td>Type</td><td>Parameters</td></tr>
+		<tr><th>ID</th><th>Type</th><th>Parameters</th><th>Content Pack</th></tr>
 		<?php
 			$usable_actions = get_actions();
 			
 			foreach($usable_actions as $u){
-				$params_str = '';
-				
+				$cps = get_content_packs($u['cid']);
+				$c = $cps[0];
+				$params_str = '&nbsp;';
+				if (count($u['params']) > 0) {
+					$params_str = '';
+				}
 				foreach($u['params'] as $p){
 					$params_str .= $p['name'] . '(' . $p['value'] . ')';
 				}
 					echo "<tr>";
 					echo "<td>{$u['id']}</td><td>{$u['type']}</td>
-					<td>{$params_str}</td>";
+					<td>{$params_str}</td><td>{$c['name']}</td>";
 					echo "</tr>";
 			}
 		?>

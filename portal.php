@@ -4,13 +4,15 @@
 
 	<h1>Portals</h1>
 	<table border = 1>
-		<tr><td>ID</td><td>Name</td><td>ContenPack</td><td>Sprite</td></tr>
+		<tr><th>&nbsp;</th><th>Name</th><th>ContentPack</th><th>Sprite</th></tr>
 		<?php
 			$usable_image = get_portals();
 			
 			foreach($usable_image as $u){
+				$cps = get_content_packs($u['cid']);
+				$c = $cps[0];
 				echo "<tr>";
-				echo "<td>{$u['id']}</td><td>{$u['name']}</td><td>{$u['cid']}</td>
+				echo "<td><a href=\"submit.php?action=delete_portal&id={$u['id']}\">X</a></td><td>{$u['name']}</td><td>{$c['name']}</td>
 					<td>{$u['sprite']}</td>";
 				echo "</tr>";
 			}
@@ -19,17 +21,25 @@
 	
 	<!--TODO: upload_file.php needs to be coded-->
 	<form action = "submit.php?action=new_portal" method = "post">
-		<label for = "file">Filename:</label>
-		<input type = "file" name = "file" id = "file"<br>
-		<input type = "submit" name = "submit" value = "Submit">
+		Name: <input type="text" name="name" /><br />
 		<?php
 			$usable_content_packs = get_content_packs();
-			echo "<select>";
+			echo "ContentPack: <select name=\"cid\">";
 			foreach($usable_content_packs as $u){
-				echo "<option value=\"{$u['name']}\">{$u['name']}</option>";
+				echo "<option value=\"{$u['id']}\">{$u['name']}</option>";
 			}
-			echo "</select>";
+			echo "</select><br />";
 		?>
+		Sprite: <select name="spriteid">
+		<?php
+			$sprites = get_images();
+			foreach ($sprites as $s) {
+		?>
+			<option value="<?php echo $s['id']; ?>"><?php echo $s['filename']; ?></option>
+		<?php
+			}
+		?>
+		<input type = "submit" name = "submit" value = "Add Portal">
 	</form>
 	
 
