@@ -79,23 +79,34 @@ require "includes/common.php";
 			$defenseb = $db->escaped($_POST['defensebase']);
 			$defenseg = $db->escaped($_POST['defensegain']);
 			$agilityb = $db->escaped($_POST['agilitybase']);
-			$agiltiyg = $db->escaped($_POST['agilitygain']);
+			$agilityg = $db->escaped($_POST['agilitygain']);
 			$accuracyb = $db->escaped($_POST['accuracybase']);
 			$accuracyg = $db->escaped($_POST['accuracygain']);
 			$magicb = $db->escaped($_POST['magicbase']);
-			$magicb = $db->escaped($_POST['magicgain']);
+			$magicg = $db->escaped($_POST['magicgain']);
 			$luckb = $db->escaped($_POST['luckbase']);
 			$luckg = $db->escaped($_POST['luckgain']);
-			$xp = $db->escaped($_POST['xp']);
+			$xp = $db->escaped($_POST['xpgiven']);
+			$name = $db->escaped($_POST['name']);
+			$spriteId = $db->escaped($_POST['spriteid']);
+			$cid = $db->escaped($_POST['cid']);
 			
 			//query may not be correct so sorry for shameful display
-			$q = "INSERT INTO Entities(id, cid, name, sprite, xp, hpBase, 
+			$q = "INSERT INTO Entities(cid, name, spriteId, xp, hpBase, 
 				hpGain, mpBase, mpGain, strengthBase, strengthGain, defenseBase,
 				defenseGain, agilityBase, agilityGain, accuracyBase, accuracyGain,
-				magicBase, magicGain, luckBase, luckGain) VALUES ('$xp', '$hpb', '$hpg', '$mpb', '$mpg',
+				magicBase, magicGain, luckBase, luckGain) VALUES ('$cid', '$name',
+				'$spriteId', '$xp', '$hpb', '$hpg', '$mpb', '$mpg',
 				'$strengthb', '$strengthg', '$defenseb', '$defenseg', '$agilityb', '$agilityg',
 				'$accuracyb', '$accuracyg', '$magicb', '$magicg', '$luckb', '$luckg')";
-			$db->query($q);
+			$s = $db->query($q);
+			if ($s === FALSE) {
+				echo 'An error occured.<br />';
+			} else {
+				header("Refresh: 5; URL=entity.php");
+				echo 'Complete; Redirecting in 5 seconds...<br />';
+			}
+			echo '<a href="entity.php">Back</a>';
 			break;
 			
 		case 'new_content_packs':
@@ -140,6 +151,28 @@ require "includes/common.php";
 				echo 'Complete; Redirecting in 5 seconds...<br />';
 			}
 			echo '<a href="map.php?edit='.$from.'">Back</a>';
+			break;
+			
+		case 'delete_entity':
+			$id = $_GET['id'];
+			if (array_key_exists('confirm', $_GET) && $_GET['confirm'] === '1') {
+				$id = $db->escaped($id);
+				$s = $db->query("DELETE FROM Entities WHERE id='$id'");
+				if ($s === FALSE) {
+					echo 'An error occured.<br />';
+				} else {
+					header("Refresh: 5; URL=entity.php");
+					echo 'Complete; Redirecting in 5 seconds...<br />';
+				}
+				echo '<a href="entity.php">Back</a>';
+			} else {
+				$num = get_reference_count('MapEntities', 'entityId', $id);
+				echo "Deleting this entity will remove $num map references.<br/>\n";
+				echo "Proceed?<br />\n";
+				echo '<a href="submit.php?action=delete_entity&id=' . $id . '&confirm=1">Yes</a>';
+				echo '<br/><br/>';
+				echo '<a href="entity.php">No</a>';
+			}
 			break;
 		
 		case 'new_map_portal':
@@ -238,7 +271,7 @@ require "includes/common.php";
 			break;
 			
 		default:
-			echo "<h3>Invalid form parameteres.</h3>"
+			echo "<h3>Invalid form parameteres.</h3>";
 			die();
 			break;
 	}

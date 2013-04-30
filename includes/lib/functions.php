@@ -377,10 +377,24 @@ function string_to_land($land_data) {
 		$pieces = str_split($rows[$y]);
 		for ($x = 0; $x < $max_x + 1; $x++) {
 			if (array_key_exists($pieces[$x], $tiles)) {
-				$buffer[$
+//				$buffer[$
 			}
 		}
 	}
+}
+
+/**
+ * Gets the number of rows in a table that refer to some id.
+ * $table - The table to check.
+ * $ref_col - The column that is a foreign key.
+ * $ref_val - The id to which refs are being counted.
+ * Returns the number of references.
+ */
+function get_reference_count($table, $ref_col, $ref_val) {
+	global $db;
+	$n = $db->prepared_select('get_reference_count', array($table, $ref_col, $ref_val));
+	$n = $n[0];
+	return $n['COUNT(*)'];
 }
 
 ?>

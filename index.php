@@ -15,6 +15,7 @@
 		<a href="entity.php">Entity</a>
 		<a href="tile.php">Tile</a>
 		<a href="map.php">Map</a>
+		<a href="land.php">Land</a>
 	</body>
 	
 </html>
