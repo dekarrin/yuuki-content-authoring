@@ -30,6 +30,7 @@
 			}
 		?>
 	</table>
+	<hr />
 	<form action = "submit.php?action=new_entity" method = "post">
 		<table border="1">
 			<tr>
@@ -99,15 +100,7 @@ foreach ($sprites as $s) {
 		</table>
 	</form>
 	
-	<a href="bgm.php">Backround Music</a>
-		<a href="sfx.php">Sound Effects</a>
-		<a href="contentpack.php">Content Packs</a>
-		<a href="image.php">Image</a>
-		<a href="action.php">Actions</a>
-		<a href="portal.php">Portal</a>
-		<a href="entity.php">Entity</a>
-		<a href="tile.php">Tile</a>
-		<a href="map.php">Map</a>
+<?php require 'includes/html/link_box.html'; ?>
 	
 </body>
 </html>

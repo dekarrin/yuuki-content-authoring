@@ -316,5 +316,6 @@ if (!array_key_exists('edit', $_GET)) {
 	}
 }
 ?>
+<?php require 'includes/html/link_box.html'; ?>
 	</body>
 </html>

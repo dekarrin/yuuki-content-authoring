@@ -4,32 +4,33 @@
 
 	<h1>Content Packs</h1>
 	<table border = 1>
-		<tr><td>ID</td><td>Name</td></tr>
+		<tr><td>&nbsp;</td><td>Name</td></tr>
 		<?php
 			$usable_contentpacks = get_content_packs();
 			
 			foreach($usable_contentpacks as $u){
 				echo "<tr>";
-				echo "<td>{$u['id']}</td><td>{$u['name']}</td>";
+				echo "<td><a href=\"submit.php?action=delete_content_pack&id={$u['id']}\">X</a></td><td>{$u['name']}</td>";
 				echo "</tr>";
 			
 			}
 		?>
 	</table>
-	
-	<form action = "submit.php?action=new_content_packs" method = "post">
-		Content Pack name: <input type="text" name="name">
-	<input type = "submit" value = "Submit">
+	<hr />
+	<form action = "submit.php?action=new_content_pack" method = "post">
+		<table border="1">
+			<tr>
+				<th>Name</th>
+				<th>&nbsp;</th>
+			</tr>
+			<tr>
+				<td><input type="text" name="name"></td>
+				<td><input type = "submit" value = "Add Content Pack"></td>
+			</tr>
+		</table>
 	</form>
 	
-	<a href="bgm.php">Backround Music</a>
-		<a href="sfx.php">Sound Effects</a>
-		<a href="contentpack.php">Content Packs</a>
-		<a href="image.php">Image</a>
-		<a href="action.php">Actions</a>
-		<a href="portal.php">Portal</a>
-		<a href="entity.php">Entity</a>
-		<a href="tile.php">Tile</a>
-		<a href="map.php">Map</a>
+
+<?php require 'includes/html/link_box.html'; ?>
 </body>
 </html>

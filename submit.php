@@ -1,5 +1,35 @@
 <?php
 require "includes/common.php";
+
+function show_success($success, $target) {
+	if ($success === FALSE) {
+		echo 'An error occured.<br />';
+	} else {
+		header("Refresh: 5; URL=$target");
+		echo 'Complete; Redirecting in 5 seconds...<br />';
+	}
+	echo '<a href="' . $target . '">Back</a>';
+}
+
+function check_confirm($type, $table, $target, $refs) {
+	global $db;
+	$id = $_GET['id'];
+	if (array_key_exists('confirm', $_GET) && $_GET['confirm'] === '1') {
+		$id = $db->escaped($id);
+		$s = $db->query("DELETE FROM $table WHERE id='$id'");
+		show_success($s, $target);
+	} else {
+		$num = 0;
+		foreach ($refs as $r) {
+			$num += get_reference_count($r[0], $r[1], $id);
+		}
+		echo "Deleting this records will remove $num map references.<br/>\n";
+		echo "Proceed?<br />\n";
+		echo '<a href="submit.php?action=delete_' . $type . '&id=' . $id . '&confirm=1">Yes</a>';
+		echo '<br/><br/>';
+		echo '<a href="'.$target.'">No</a>';
+	}
+}
 	switch($_GET['action']){
 		case 'new_bgm':
 			//file uploading stuff here.
@@ -109,10 +139,11 @@ require "includes/common.php";
 			echo '<a href="entity.php">Back</a>';
 			break;
 			
-		case 'new_content_packs':
+		case 'new_content_pack':
 			$name = $db->escaped($_POST['name']);
 			$q = "INSERT INTO ContentPacks (name) VALUES ('$name')";
-			$db->query($q);
+			$s = $db->query($q);
+			show_success($s, 'contentpack.php');
 			break;
 			
 		case 'delete_map_portal':
@@ -151,6 +182,20 @@ require "includes/common.php";
 				echo 'Complete; Redirecting in 5 seconds...<br />';
 			}
 			echo '<a href="map.php?edit='.$from.'">Back</a>';
+			break;
+			
+		case 'delete_content_pack':
+			check_confirm('content_pack', 'ContentPacks', 'contentpack.php', array(
+				array('SoundEffects', 'cid'),
+				array('BackgroundMusics', 'cid'),
+				array('Actions', 'cid'),
+				array('Maps', 'cid'),
+				array('Lands', 'cid'),
+				array('Entities', 'cid'),
+				array('Images', 'cid'),
+				array('Portals', 'cid'),
+				array('Tiles', 'cid')
+			));
 			break;
 			
 		case 'delete_entity':
