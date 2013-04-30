@@ -222,6 +222,25 @@ require "includes/common.php";
 			echo 'Complete; Redirecting in 5 seconds...<br />';
 			echo '<a href="map.php?edit='.$id.'">Back</a>';
 			break;
+		
+		case 'edit_land':
+			$id = $db->escaped($_POST['id']);
+			$name = $db->escaped($_POST['name']);
+			$cid = $db->escaped($_POST['cid']);
+			$start_x = $db->escaped($_POST['start_x']);
+			$start_y = $db->escaped($_POST['start_y']);
+			$width = $db->escaped($_POST['width']);
+			$height = $db->escaped($_POST['height']);
+			$land_data = $_POST['land_data'];
+			$db->query("UPDATE Lands SET name='$name', cid='$cid', startX='$start_x',
+			startY='$start_y', width='$width', height='$height'");
+			$tiles = string_to_land($land_data);
+			break;
+			
+		default:
+			echo "<h3>Invalid form parameteres.</h3>"
+			die();
+			break;
 	}
 
 

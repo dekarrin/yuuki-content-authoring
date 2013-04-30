@@ -158,9 +158,9 @@ function get_tiles($cid = NULL) {
  * $land_id - The id of the land to get tiles for.
  * Returns an array of Tile format arrays.
  */
-function get_tiles_for_land_id($land_id) {
+function get_land_tiles_for_land_id($land_id) {
 	global $db;
-	return $db->prepared_select('get_tiles_for_land_id', array($land_id));
+	return $db->prepared_select('get_land_tiles_for_land_id', array($land_id));
 }
 
 /**
@@ -264,7 +264,7 @@ function get_land_by_id($id) {
 	global $db;
 	return $db->prepared_select('get_lands_for_id', array($id));
 }
-
+ 
 /**
  * Gets all maps for a content pack
  * $cid - The id of the content pack to get maps for; set to NULL for all
@@ -327,7 +327,60 @@ function set_action_params(&$actions) {
  * Returns the land data as a string.
  */
 function land_to_string($land_id) {
-	return "";
+	$tiles = get_land_tiles_for_land_id($land_id);
+	$buffer = array();
+	$max_x = 0;
+	$max_y = 0;
+	foreach ($tiles as $t) {
+		$x = $t['x'];
+		$y = $t['y'];
+		$max_x = max($x, $max_x);
+		$max_y = max($y, $max_y);
+		if (!array_key_exists($x, $buffer)) {
+			$buffer[$x] = array();
+		}
+		$buffer[$x][$y] = $t['dataChar'];
+	}
+	$land_str = "";
+	for ($y = 0; $y < $max_y + 1; $y++) {
+		for ($x = 0; $x < $max_x + 1; $x++) {
+			$c = ' ';
+			if (array_key_exists($x, $buffer) && array_key_exists($y, $buffer[$x])) {
+				$c = $buffer[$x][$y];
+			}
+			$land_str .= $c;
+		}
+		if ($y + 1 < $max_y + 1) {
+			$land_str .= "\n";
+		}
+	}
+	return $land_str;
+}
+
+/**
+ * Turns a land data string into a series of map tile objects.
+ */
+function string_to_land($land_data) {
+	$ts = get_tiles();
+	$tiles = array();
+	foreach ($ts as $t) {
+		$tiles[$t['dataChar']] = $t;
+	}
+	$rows = explode("\n", $land_data);
+	$max_x = 0;
+	foreach ($rows as $r) {
+		$max_x = max($max_x, count($r) - 1);
+	}
+	$buffer = array();
+	for ($x = 0; $x < count($rows); $y++) {
+		$buffer[$y] = array();
+		$pieces = str_split($rows[$y]);
+		for ($x = 0; $x < $max_x + 1; $x++) {
+			if (array_key_exists($pieces[$x], $tiles)) {
+				$buffer[$
+			}
+		}
+	}
 }
 
 ?>

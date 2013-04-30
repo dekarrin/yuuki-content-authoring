@@ -78,12 +78,15 @@ INNER JOIN Images AS i
 ON t.spriteId = i.id
 WHERE t.cid = \'$1\'');
 
-$db->prepare('get_tiles_for_land_id',
-'SELECT t.id, t.cid, t.dataChar, t.name, t.traversable, i.filename "sprite"
-FROM Tiles AS t
+$db->prepare('get_land_tiles_for_land_id',
+'SELECT t.id, t.cid, t.dataChar, t.name, t.traversable, i.filename "sprite",
+lt.x, lt.y
+FROM LandTiles AS lt
+INNER JOIN Tiles AS t
+ON t.id = lt.tileId
 INNER JOIN Images AS i
 ON t.spriteId = i.id
-WHERE t.landId = \'$1\'');
+WHERE lt.landId = \'$1\'');
 
 $db->prepare('get_portals',
 'SELECT p.id, p.cid, p.name, i.filename "sprite"

@@ -7,11 +7,13 @@ require 'includes/common.php';
 		<title>YCAT :: Land</title>
 	</head>
 	<body>
-		<table>
+<?php
+if (!array_key_exists('edit', $_GET)) {
+	$lands = get_lands();
+?>
+		<table border="1">
 			<caption>Lands</caption>
 <?php
-if (!array_key_exists('edit', $_GET)) 
-	$lands = get_lands();
 	if (!empty($lands)) {
 ?>
 			<tr>
@@ -81,7 +83,9 @@ if (!array_key_exists('edit', $_GET))
 			<label>Size:</label>
 			<input type="text" name="width" value="<?php echo $land['width']; ?>" /> x <input type="text" name="height" value="<?php echo $land['height']; ?>" /><br />
 			<label>Land Data:</label>
-			<textarea cols="<?php echo $land['width']; ?>" rows="<?php echo $land['height']; ?>"><?php echo land_to_string($edit_id); ?></textarea>
+			<textarea cols="<?php echo $land['width']; ?>" rows="<?php echo $land['height']; ?>" name="land_data"><?php echo land_to_string($edit_id); ?></textarea>
+			<br />
+			<input type="submit" value="Update" />
 		</form>
 <?php
 	}
