@@ -59,7 +59,6 @@
 				<th>Path on Server</th>
 				<th>Custom Index</th>
 				<th>Content Pack</th>
-				<th>&nbsp;</th>
 			</tr>
 			<tr>
 				<td><input type="file" name="sfx" /></td>
@@ -73,9 +72,9 @@
 			}
 				?>
 				</select></td>
-				<td><input type = "submit" name = "submit" value = "Add Sound Effect"/></td>
 			</tr>
 		</table>
+		<input type = "submit" name = "submit" value = "Add Sound Effect"/>
 	</form>
 	
 

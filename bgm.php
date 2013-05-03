@@ -60,7 +60,6 @@
 				<th>Path on Server</th>
 				<th>Custom Index</th>
 				<th>Content Pack</th>
-				<th>&nbsp;</th>
 			</tr>
 			<tr>
 				<td><input type="file" name="bgm" /></td>
@@ -74,9 +73,9 @@
 			}
 				?>
 				</select></td>
-				<td><input type = "submit" name = "submit" value = "Add Background Music"/></td>
 			</tr>
 		</table>
+		<input type = "submit" name = "submit" value = "Add Background Music" />
 	</form>
 	
 

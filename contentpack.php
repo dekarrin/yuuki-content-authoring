@@ -4,15 +4,20 @@
 
 	<h1>Content Packs</h1>
 	<table border = 1>
-		<tr><th>&nbsp;</th><th>Name</th></tr>
+		<tr>
+			<th>Name</th>
+			<th>Delete</th>
+		</tr>
 		<?php
 			$usable_contentpacks = get_content_packs();
 			
 			foreach($usable_contentpacks as $u){
-				echo "<tr>";
-				echo "<td><a href=\"submit.php?action=delete_content_pack&id={$u['id']}\">X</a></td><td>{$u['name']}</td>";
-				echo "</tr>";
-			
+		?>
+		<tr>
+			<td><?php echo $u['name']; ?></td>
+			<td><a href="submit.php?action=delete_content_pack&id=<?php echo $u['id']; ?>">X</a></td>
+		</tr>			
+		<?php
 			}
 		?>
 	</table>
@@ -21,13 +26,12 @@
 		<table border="1">
 			<tr>
 				<th>Name</th>
-				<th>&nbsp;</th>
 			</tr>
 			<tr>
 				<td><input type="text" name="name"></td>
-				<td><input type = "submit" value = "Add Content Pack"></td>
 			</tr>
 		</table>
+		<input type = "submit" value = "Add Content Pack" />
 	</form>
 	
 

@@ -158,11 +158,11 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 			break;
 			
 		case 'new_image':
-			//uploading stuff here
-			//$name = $db->escaped($some_file_name);
-			//$cid = $db->escaped($_POST['contentpackname']);
-			//$q = query("INSERT INTO Images(id, cid, filname, customIndex) VALUES ('', $cid, '$name', '')");
-			$db->query($q);
+			submit_file('image.php', 'image', 'images', 'Images', array(
+				'image/gif' => 'gif',
+				'image/jpeg' => 'jpg',
+				'image/png' => 'png'
+			));
 			break;
 			
 		case 'new_tile':
@@ -302,6 +302,14 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 			
 		case 'delete_sfx':
 			confirm_delete_file('sfxs', 'sfx', 'SoundEffects', 'sfx.php', array());
+			break;
+			
+		case 'delete_image':
+			confirm_delete_file('images', 'image', 'Images', 'image.php', array(
+				array('Entities', 'spriteId'),
+				array('Portals', 'spriteId'),
+				array('Tiles', 'spriteId')
+			));
 			break;
 			
 		case 'delete_entity':
