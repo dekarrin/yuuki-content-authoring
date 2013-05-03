@@ -1,12 +1,14 @@
 <?php
 require "includes/common.php";
 
-function show_success($success, $target) {
+function show_success($success, $target, $redir = true) {
 	if ($success === FALSE) {
 		echo 'An error occured.<br />';
 	} else {
-		header("Refresh: 5; URL=$target");
-		echo 'Complete; Redirecting in 5 seconds...<br />';
+		if ($redir) {
+			header("Refresh: 5; URL=$target");
+		}
+		echo 'Complete' . (($redir) ? '; Redirecting in 5 seconds...' : '!') . '<br />';
 	}
 	echo '<a href="' . $target . '">Back</a>';
 }
@@ -30,16 +32,80 @@ function check_confirm($type, $table, $target, $refs) {
 		echo '<a href="'.$target.'">No</a>';
 	}
 }
+
+function create_unique_name($dest, $target, $ext) {
+	$parts = pathinfo($target);
+	$file = $parts['filename'];
+	if (file_exists($dest . '/' . $file . '.' . $ext)) {
+		$num = 0;
+		$filename = '';
+		do {
+			$num++;
+			$filename = $file . '_' . $num . '.' . $ext;
+		} while (file_exists($dest . '/' . $filename));
+		return $filename;
+	} else {
+		return $file . '.' . $ext;
+	}
+}
+
+function submit_file($source, $name, $dest_dir, $table, $allowed) {
+	global $db;
+	if ($_FILES[$name]['error'] > 0) {
+		switch ($_FILES[$name]['error']) {
+			case UPLOAD_ERR_INI_SIZE:
+			case UPLOAD_ERR_FORM_SIZE:
+				echo 'File too big!<br />';
+				break;
+			case UPLOAD_ERR_PARTIAL:
+				echo 'Upload interrupted!<br />';
+				break;
+			case UPLOAD_ERR_NO_FILE:
+				echo 'No file uploaded!<br />';
+				break;
+			case UPLOAD_ERR_NO_TMP_DIR:
+			case UPLOAD_ERR_CANT_WRITE:
+			case UPLOAD_ERR_EXTENSION:
+				echo 'Upload failed! Server configuration error!<br />';
+				break;
+			default:
+				echo 'Upload error #' . $_FILES[$name]['error'] . '<br />';
+				break;
+		}
+		show_success(false, $source);
+	} else {
+		$type = $_FILES[$name]['type'];
+		if (!array_key_exists($type, $allowed)) {
+			echo 'Only the following types are allowed for this upload:<br /><ul>';
+			foreach ($allowed as $type => $a) {
+				echo "<li>$type</li>";
+			}
+			echo '</ul>';
+			show_success(false, $source);
+			return;
+		}
+		$target_name = $_POST['upload_name'];
+		$index = $db->escaped($_POST['custom_index']);
+		$cid = $db->escaped($_POST['cid']);
+		if (!file_exists($dest_dir)) {
+			mkdir($dest_dir, 0777, true);
+		}
+		$final_name = create_unique_name($dest_dir, $target_name, $allowed[$type]);
+		$final_dest = $dest_dir . '/' . $final_name;
+		move_uploaded_file($_FILES[$name]['tmp_name'], $final_dest);
+		$s = $db->query("INSERT INTO $table (cid, filename, customIndex) VALUES ('$cid',
+		'$final_name', '$index')");
+		show_success($s, $source);
+	}
+}
+
 	switch($_GET['action']){
 		case 'new_bgm':
-			//file uploading stuff here.
-			
-			//$filename = $some_other_file_name;
-			//$id = $db->escaped($_POST['id']);
-			//$cid = $db->escaped($_POST['cid']);
-			//$customIndex = $db->escaped($_POST['customIndex'];
-			//$q = query("INSERT INTO SoundEffects(id, cid, filename, customIndex) VALUES('$id','$cid','$filename','$customIndex')";
-			
+			submit_file('bgm.php', 'bgm', 'bgms', 'BackgroundMusics', array(
+				'audio/wav' => 'wav',
+				'audio/x-wav' => 'wav',
+				'audio/mpeg' => 'mp3'
+			));
 			break;
 		case 'new_sfx':
 			//fileuploading stuff here.

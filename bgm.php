@@ -4,31 +4,77 @@
 
 	<h1>Backround Music</h1>
 	<table border = 1>
-		<tr><th>Index</th><th>File Name</th><th>Content Pack</th></tr>
+		<tr>
+			<th>Custom Index</th>
+			<th>File Name</th>
+			<th>Content Pack</th>
+			<th>Preview</th>
+		</tr>
 		<?php
 			$usable_bgm = get_bgm();	
 			foreach($usable_bgm as $u){
 				$cps = get_content_packs($u['cid']);
 				$c = $cps[0];
-				echo "<tr>";
-				echo "<td>{$u['id']}</td><td>{$u['filename']}</td><td>{$c['name']}</td>";
-				echo "</tr>";
+				$type = '';
+				switch (pathinfo($u['filename'], PATHINFO_EXTENSION)) {
+					case 'mp3':
+						$type = 'audio/mpeg';
+						break;
+					case 'wav':
+					default:
+						$type = 'audio/wav';
+						break;
+				}
+				$src = 'bgms/' . $u['filename'];
+		?>
+		<tr>
+			<td><?php echo $u['customIndex']; ?></td>
+			<td><?php echo $u['filename']; ?></td>
+			<td><?php echo $c['name']; ?></td>
+		<?php
+				if ($type == 'audio/mpeg') {
+		?>
+			<td><object type="application/x-shockwave-flash" data="player.swf" width="200" height="20">
+				<param name="movie" value="player.swf" />
+				<param name="FlashVars" value="mp3=<?php echo $src; ?>" />
+			</object></td>
+		<?php
+				} else {
+		?>
+			<td><a href="<?php echo $src; ?>">Listen</a></td>
+		<?php
+				}
+		?>
+		</tr>
+		<?php
 			}
 		?>
 	</table>
-	
-	<form action = "submit.php?action=new_image" = method = "post">
-		<label for = "file">Filename:</label>
-		<input type = "file" name = "file" id = "file"/>
-		<input type = "submit" name = "submit" value = "Submit"/>
-		<?php
+	<hr />
+	<form action="submit.php?action=new_bgm" method="post" enctype="multipart/form-data">
+		<table border="1">
+			<tr>
+				<th>Upload File</th>
+				<th>Name on Server</th>
+				<th>Custom Index</th>
+				<th>Content Pack</th>
+				<th>&nbsp;</th>
+			</tr>
+			<tr>
+				<td><input type="file" name="bgm" /></td>
+				<td><input type="text" name="upload_name" /></td>
+				<td><input type="text" name="custom_index" /></td>
+				<td><select name="cid">
+				<?php
 			$usable_content_packs = get_content_packs();
-			echo "<select>";
 			foreach($usable_content_packs as $u){
-				echo "<option value=\"{$u['name']}\">{$u['name']}</option>";
+				echo "<option value=\"{$u['id']}\">{$u['name']}</option>";
 			}
-			echo "</select>";
-		?>
+				?>
+				</select></td>
+				<td><input type = "submit" name = "submit" value = "Submit"/></td>
+			</tr>
+		</table>
 	</form>
 	
 
