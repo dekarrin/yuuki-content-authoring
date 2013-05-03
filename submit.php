@@ -13,6 +13,31 @@ function show_success($success, $target, $redir = true) {
 	echo '<a href="' . $target . '">Back</a>';
 }
 
+function confirm_delete_file($dir, $type, $table, $target, $refs) {
+	global $db;
+	$id = $_GET['id'];
+	if (array_key_exists('confirm', $_GET) && $_GET['confirm'] === '1') {
+		$files = $db->prepared_select("{$table}_filenames", array($id));
+		$filename = $files[0]['filename'];
+		$id = $db->escaped($id);
+		$s = $db->query("DELETE FROM $table WHERE id='$id'");
+		if ($s !== FALSE) {
+			unlink($dir . '/' . $filename);
+		}
+		show_success($s, $target);
+	} else {
+		$num = 0;
+		foreach ($refs as $r) {
+			$num += get_reference_count($r[0], $r[1], $id);
+		}
+		echo "Deleting this record will also delete $num record(s) that reference it.<br/>\n";
+		echo "Proceed?<br />\n";
+		echo '<a href="submit.php?action=delete_' . $type . '&id=' . $id . '&confirm=1">Yes</a>';
+		echo '<br/><br/>';
+		echo '<a href="'.$target.'">No</a>';
+	}
+}
+
 function check_confirm($type, $table, $target, $refs) {
 	global $db;
 	$id = $_GET['id'];
@@ -25,7 +50,7 @@ function check_confirm($type, $table, $target, $refs) {
 		foreach ($refs as $r) {
 			$num += get_reference_count($r[0], $r[1], $id);
 		}
-		echo "Deleting this records will remove $num map references.<br/>\n";
+		echo "Deleting this record will also delete $num record(s) that reference it.<br/>\n";
 		echo "Proceed?<br />\n";
 		echo '<a href="submit.php?action=delete_' . $type . '&id=' . $id . '&confirm=1">Yes</a>';
 		echo '<br/><br/>';
@@ -268,6 +293,10 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 			check_confirm('portal', 'Portals', 'portal.php', array(
 				array('MapPortals', 'portalId')
 			));
+			break;
+		
+		case 'delete_bgm':
+			confirm_delete_file('bgms', 'bgm', 'BackgroundMusics', 'bgm.php', array());
 			break;
 			
 		case 'delete_entity':

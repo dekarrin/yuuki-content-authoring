@@ -199,4 +199,8 @@ WHERE me.mapId = \'$1\'');
 $db->prepare('get_action_types', 'SELECT * FROM ActionTypes');
 
 $db->prepare('get_reference_count', 'SELECT COUNT(*) FROM $1 WHERE $2 = \'$3\'');
+
+$db->prepare('SoundEffects_filenames', 'SELECT filename FROM SoundEffects WHERE id=\'$1\'');
+$db->prepare('Images_filenames', 'SELECT filename FROM Images WHERE id=\'$1\'');
+$db->prepare('BackgroundMusics_filenames', 'SELECT filename FROM BackgroundMusics WHERE id=\'$1\'');
 ?>

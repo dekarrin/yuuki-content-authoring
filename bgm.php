@@ -9,6 +9,7 @@
 			<th>File Name</th>
 			<th>Content Pack</th>
 			<th>Preview</th>
+			<th>Delete</th>
 		</tr>
 		<?php
 			$usable_bgm = get_bgm();	
@@ -45,6 +46,7 @@
 		<?php
 				}
 		?>
+			<td><a href="submit.php?action=delete_bgm&id=<?php echo $u['id']; ?>">X</a></td>
 		</tr>
 		<?php
 			}
