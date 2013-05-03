@@ -57,7 +57,7 @@
 		<table border="1">
 			<tr>
 				<th>Upload File</th>
-				<th>Name on Server</th>
+				<th>Path on Server</th>
 				<th>Custom Index</th>
 				<th>Content Pack</th>
 				<th>&nbsp;</th>
@@ -74,7 +74,7 @@
 			}
 				?>
 				</select></td>
-				<td><input type = "submit" name = "submit" value = "Submit"/></td>
+				<td><input type = "submit" name = "submit" value = "Add Background Music"/></td>
 			</tr>
 		</table>
 	</form>

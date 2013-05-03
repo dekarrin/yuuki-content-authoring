@@ -132,16 +132,15 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 				'audio/mpeg' => 'mp3'
 			));
 			break;
+			
 		case 'new_sfx':
-			//fileuploading stuff here.
-			
-			//$filename = $some_other_file_name;
-			//$id = $db->escaped($_POST['id']);
-			//$cid = $db->escaped($_POST['cid']);
-			//$customIndex = $db->escaped($_POST['customIndex'];
-			//$q = query("INSERT INTO SoundEffects(id, cid, filename, customIndex) VALUES('$id','$cid','$filename','$customIndex')";
-			
+			submit_file('sfx.php', 'sfx', 'sfxs', 'SoundEffects', array(
+				'audio/wav' => 'wav',
+				'audio/x-wav' => 'wav',
+				'audio/mpeg' => 'mp3'
+			));
 			break;
+
 		case 'new_action':
 			$id;
 			$cid;
@@ -149,6 +148,7 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 			$q = query("INSERT INTO Actions(id, cid, actionTypeId VALUES ('$id', '$cid', '$actionTypeId')");
 			$db->query($q);
 			break;
+			
 		case 'new_portal':
 			$spriteId = $db->escaped($_POST['spriteid']);
 			$name = $db->escaped($_POST['name']);
@@ -156,6 +156,7 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 			$s = $db->query("INSERT INTO Portals(cid, name, spriteId) VALUES ('$cid', '$name', '$spriteId')");
 			show_success($s, 'portal.php');
 			break;
+			
 		case 'new_image':
 			//uploading stuff here
 			//$name = $db->escaped($some_file_name);
@@ -163,6 +164,7 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 			//$q = query("INSERT INTO Images(id, cid, filname, customIndex) VALUES ('', $cid, '$name', '')");
 			$db->query($q);
 			break;
+			
 		case 'new_tile':
 			//file stuff needs to be done
 			$name = $db->escaped($_POST['name']);
@@ -190,7 +192,6 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 			break;
 			
 		case 'new_entity':
-			
 			$hpb = $db->escaped($_POST['hpbase']);
 			$hpg = $db->escaped($_POST['hpgain']);
 			$mpb = $db->escaped($_POST['mpbase']);
@@ -297,6 +298,10 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 		
 		case 'delete_bgm':
 			confirm_delete_file('bgms', 'bgm', 'BackgroundMusics', 'bgm.php', array());
+			break;
+			
+		case 'delete_sfx':
+			confirm_delete_file('sfxs', 'sfx', 'SoundEffects', 'sfx.php', array());
 			break;
 			
 		case 'delete_entity':
