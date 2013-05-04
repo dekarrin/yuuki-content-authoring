@@ -1,5 +1,3 @@
-USE yuukicontent;
-
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS ActionParameterValues CASCADE;
 DROP TABLE IF EXISTS EntityAbilities CASCADE;
