@@ -1,10 +1,20 @@
 <?php include "includes/common.php";?>
 <html>
+<head>
+	<title>YCAT :: Actions</title>
+	<script type="text/javascript" src="actions.js"></script>
+</head>
 <body>
 
 	<h1>Actions</h1>
 	<table border = 1>
-		<tr><th>ID</th><th>Type</th><th>Parameters</th><th>Content Pack</th></tr>
+		<tr>
+			<th>External Name</th>
+			<th>Type</th>
+			<th>Parameters</th>
+			<th>Content Pack</th>
+			<th>Delete</th>
+		</tr>
 		<?php
 			$usable_actions = get_actions();
 			
@@ -12,41 +22,62 @@
 				$cps = get_content_packs($u['cid']);
 				$c = $cps[0];
 				$params_str = '&nbsp;';
+				$p_str = '';
 				if (count($u['params']) > 0) {
 					$params_str = '';
+					foreach($u['params'] as $p){
+						$params_str .= $p['name'] . ' = ' . $p['value'] . ', ';
+						$p_str .= $p['value'] . ', ';
+					}
+					$params_str = substr($params_str, 0, strlen($params_str)-2);
+					$p_str = substr($p_str, 0, strlen($p_str)-2);
 				}
-				foreach($u['params'] as $p){
-					$params_str .= $p['name'] . '(' . $p['value'] . ')';
-				}
-					echo "<tr>";
-					echo "<td>{$u['id']}</td><td>{$u['type']}</td>
-					<td>{$params_str}</td><td>{$c['name']}</td>";
-					echo "</tr>";
+				$ex_name = $u['type'] . '(' . $p_str . ')';
+		?>
+		<tr>
+			<td><?php echo $ex_name; ?></td>
+			<td><?php echo $u['type']; ?></td>
+			<td><?php echo $params_str; ?></td>
+			<td><?php echo $c['name']; ?></td>
+			<td><a href="submit.php?action=delete_action&id=<?php echo $u['id']; ?>">X</a></td>
+		</tr>
+		<?php
 			}
 		?>
 	</table>
-	<form action = "submit.php?action=new_action" method = "post">
-		<?php
-			$usable_actiontypes = get_action_types();
-			echo "<select>";
-			foreach($usable_actiontypes as $u){
-				echo "<option value = '{$u['name']}'>{$u['name']}</option>";
-			}
-			echo "</select>";
-			
-		?>
-		Action ID: <input type = "text" name "actionid">
-		position: <input type = "text" name "position">
-		value: <input type = "text" name "value">
+	<hr />
+	<form action="submit.php?action=new_action" method="post" id="add_form">
+		<table border="1">
+			<tr id="add_headers">
+				<th>Content Pack</th>
+				<th>Action Base</th>
+			</tr>
+			<tr id="add_data">
+				<td><select name="cid">
 		<?php
 			$usable_content_packs = get_content_packs();
-			echo "<select>";
-			foreach($usable_content_packs as $u){
-				echo "<option value=\"{$u['name']}\">{$u['name']}</option>";
-			}
-			echo "</select>";
+			foreach($usable_content_packs as $u) {
 		?>
-		<input type="submit" value="Submit">
+					<option value="<?php echo $u['id']; ?>"><?php echo $u['name']; ?></option>
+		<?php
+			}
+		?>
+				</select></td>
+				<td><select name="action_type" onchange="actionTypeChanged()" id="base_selector">
+					<option value="" selected="selected">(Select One)</option>
+		<?php
+			$usable_actiontypes = get_action_types();
+			foreach($usable_actiontypes as $u) {
+		?>
+					<option value="<?php echo $u['id']; ?>"><?php echo $u['name']; ?></option>
+		<?php
+			}
+		?>
+				</select></td>
+			</tr>
+		</table>
+		<input id="add_count" type="hidden" name="param_count" value="0" />
+		<input type="submit" value="Add Action">
 	</form>
 	
 <?php require 'includes/html/link_box.html'; ?>

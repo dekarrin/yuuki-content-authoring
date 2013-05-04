@@ -203,4 +203,10 @@ $db->prepare('get_reference_count', 'SELECT COUNT(*) FROM $1 WHERE $2 = \'$3\'')
 $db->prepare('SoundEffects_filenames', 'SELECT filename FROM SoundEffects WHERE id=\'$1\'');
 $db->prepare('Images_filenames', 'SELECT filename FROM Images WHERE id=\'$1\'');
 $db->prepare('BackgroundMusics_filenames', 'SELECT filename FROM BackgroundMusics WHERE id=\'$1\'');
+
+$db->prepare('get_action_params_for_action_type_id',
+'SELECT ap.*, adt.name "type" FROM ActionParameters AS ap
+INNER JOIN ArgDataTypes AS adt
+ON adt.id = ap.argDataTypeId
+WHERE actionTypeId = \'$1\'');
 ?>

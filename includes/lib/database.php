@@ -107,6 +107,10 @@ class Database
 		return $formatted;
 	}
 	
+	public function get_insert_id() {
+		return mysql_insert_id($this->conn);
+	}
+	
 	public function get_affected()
 	{
 		return mysql_affected_rows($this->conn);

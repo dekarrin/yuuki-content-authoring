@@ -142,11 +142,19 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 			break;
 
 		case 'new_action':
-			$id;
-			$cid;
-			$actionTypeId = $db->escaped($_POST['value']);
-			$q = query("INSERT INTO Actions(id, cid, actionTypeId VALUES ('$id', '$cid', '$actionTypeId')");
-			$db->query($q);
+			$cid = $db->escaped($_POST['cid']);
+			$actionTypeId = $db->escaped($_POST['action_type']);
+			$s = $db->query("INSERT INTO Actions (cid, actionTypeId) VALUES
+			('$cid', '$actionTypeId')");
+			$aid = $db->get_insert_id();
+			$param_count = $_POST['param_count'];
+			for ($i = 0; $i < $param_count; $i++) {
+				$p_id = $db->escaped($_POST['param_id_' . $i]);
+				$p_val = $db->escaped($_POST['param_val_' . $i]);
+				$s = $db->query("INSERT INTO ActionParameterValues (actionParameterId,
+				actionId, paramValue) VALUES ('$p_id', '$aid', '$p_val')");
+			}
+			show_success($s, 'action.php', true);
 			break;
 			
 		case 'new_portal':
@@ -287,6 +295,12 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 				array('Images', 'cid'),
 				array('Portals', 'cid'),
 				array('Tiles', 'cid')
+			));
+			break;
+			
+		case 'delete_action':
+			check_confirm('action', 'Actions', 'action.php', array(
+				array('EntityAbilities', 'actionId')
 			));
 			break;
 			
