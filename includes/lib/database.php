@@ -35,13 +35,15 @@ class Database
 		return $this->log;
 	}
 	
-	public function query($query)
+	public function query($query, $force_silent = False)
 	{
 		$this->log[] = $query;
 		$result = mysql_query($query, $this->conn);
 		if ($result === FALSE) {
 			$this->set_errors();
-			echo $this->get_error();
+			if (!$force_silent) {
+				echo $this->get_error();
+			}
 			return NULL;
 		}
 		return $result;

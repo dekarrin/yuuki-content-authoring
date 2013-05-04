@@ -5,7 +5,8 @@
 		<title>YCAT :: Home</title>
 	</head>
 	<body>
-		<p>Welcome to authoring tools. Build something creative by utilizing your thinking brain-machine.</p>
+		<p>Welcome to authoring tools. You can build something creative by utilizing your thinking brain-machine.</p>
+		<p><a href="submit.php?action=reset_all">RESET DB TO DEFAULT</a></p>
 <?php require 'includes/html/link_box.html'; ?>
 	</body>
 	

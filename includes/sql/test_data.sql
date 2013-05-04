@@ -296,14 +296,14 @@ INSERT INTO Entities (cid, name, spriteId, xp, hpBase, hpGain, mpBase,
 mpGain, strengthBase, strengthGain, defenseBase, defenseGain, agilityBase,
 agilityGain, accuracyBase, accuracyGain, magicBase, magicGain, luckBase, luckGain)
 SELECT C.id, '__PLAYER', I.id, NULL,
-'0', '1', #hp
-'0', '1', #mp
-'5', '1', #str
-'5', '1', #def
-'5', '1', #agl
-'5', '1', #acc
-'5', '1', #mag
-'5', '1' #luk
+'0', '1',
+'0', '1',
+'5', '1',
+'5', '1',
+'5', '1',
+'5', '1',
+'5', '1',
+'5', '1'
 FROM ContentPacks AS C, Images AS I
 WHERE C.name = 'BuiltIn' AND I.customIndex = 'SPRITE_PLAYER';
 
@@ -323,14 +323,14 @@ INSERT INTO Entities (cid, name, spriteId, xp, hpBase, hpGain, mpBase,
 mpGain, strengthBase, strengthGain, defenseBase, defenseGain, agilityBase,
 agilityGain, accuracyBase, accuracyGain, magicBase, magicGain, luckBase, luckGain)
 SELECT C.id, 'Slime', I.id, '3',
-'80', '15', #hp
-'0', '0', #mp
-'5', '0', #str
-'5', '0', #def
-'3', '0', #agl
-'6', '0', #acc
-'2', '0', #mag
-'4', '0' #luk
+'80', '15',
+'0', '0',
+'5', '0',
+'5', '0',
+'3', '0',
+'6', '0',
+'2', '0',
+'4', '0'
 FROM ContentPacks AS C, Images AS I
 WHERE C.name = 'BuiltIn' AND I.customIndex = 'SPRITE_SLIME';
 
@@ -365,7 +365,6 @@ INNER JOIN Lands AS L
 ON M.landId = L.id
 WHERE E.name = 'Slime' AND L.name = 'Myr\'kah';
 
-#-- Going to the same place; multiple maps with same land
 INSERT INTO MapPortals (portalId, mapId, x, y, destMapId, destX, destY)
 SELECT P.id, M.id, '1', '7', M.id, '10', '7'
 FROM Portals AS P
@@ -377,7 +376,6 @@ ON L.id = M.landId
 WHERE P.name = 'teleporter' AND PContents.name = 'BuiltIn' AND
 L.name = 'Myr\'kah';
 
-#-- Going to the same place
 INSERT INTO MapPortals (portalId, mapId, x, y, destMapId, destX, destY)
 SELECT P.id, M.id, '1', '8', M.id, '10', '7'
 FROM Portals AS P

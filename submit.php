@@ -1,6 +1,75 @@
 <?php
 require "includes/common.php";
 
+// credit to http://ben.lobaugh.net/blog/864/php-5-recursively-move-or-copy-files
+// for function
+function rcopy($src, $dest){
+
+ 
+
+    // If source is not a directory stop processing
+
+    if(!is_dir($src)) return false;
+
+ 
+
+    // If the destination directory does not exist create it
+
+    if(!is_dir($dest)) { 
+
+        if(!mkdir($dest)) {
+
+            // If the destination directory could not be created stop processing
+
+            return false;
+
+        }    
+
+    }
+
+ 
+
+    // Open the source directory to read in files
+
+    $i = new DirectoryIterator($src);
+
+    foreach($i as $f) {
+
+        if($f->isFile()) {
+
+            copy($f->getRealPath(), "$dest/" . $f->getFilename());
+
+        } else if(!$f->isDot() && $f->isDir()) {
+
+            rcopy($f->getRealPath(), "$dest/$f");
+
+        }
+
+    }
+
+}
+
+
+// credit to rhodesjason at http://stackoverflow.com/questions/1407338/a-recursive-remove-directory-function-for-php
+// for function
+function destroy_dir($dir) {
+	if (!is_dir($dir) || is_link($dir)) {
+		return unlink($dir);
+	}
+	foreach (scandir($dir) as $file) {
+		if ($file == '.' || $file == '..') {
+			continue;
+		}
+		if (!destroy_dir($dir . DIRECTORY_SEPARATOR . $file)) {
+			chmod($dir . DIRECTORY_SEPARATOR . $file, 0777);
+			if (!destroy_dir($dir . DIRECTORY_SEPARATOR . $file)) {
+				return false;
+			}
+		}
+	}
+	return rmdir($dir);
+} 
+
 function show_success($success, $target, $redir = true) {
 	if ($success === FALSE) {
 		echo 'An error occured.<br />';
@@ -174,16 +243,14 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 			break;
 			
 		case 'new_tile':
-			//file stuff needs to be done
 			$name = $db->escaped($_POST['name']);
-			$traversable = $db->escaped($_POST['traversable']);
-			$datachar = $db->esavped($_POST['datachar']);
-			//needs to be implemnted correctly
-			$contentpacks = $db->escaped($_POST['']);
-			
-			$q = query("INSERT INTO Tiles (id, cid, dataChar, name, traversable, spriteId)
-				VALUES ('', '', $datachar, '$name', '%$traversable', '$sprite')");
-			$db->query($q);
+			$traversable = array_key_exists('traversable', $_POST) ? 1 : 0;
+			$datachar = $db->escaped($_POST['data_char']);
+			$cid = $db->escaped($_POST['cid']);
+			$sprite_id = $db->escaped($_POST['sprite_id']);
+			$s = $db->query("INSERT INTO Tiles (cid, dataChar, name, spriteId, traversable)
+			VALUES ('$cid', '$datachar', '$name', '$sprite_id', '$traversable')");
+			show_success($s, 'tile.php', true);
 			break;
 			
 		case 'new_map':
@@ -257,6 +324,12 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 				echo 'Complete; Redirecting in 5 seconds...<br />';
 			}
 			echo '<a href="map.php?edit='.$from.'">Back</a>';
+			break;
+			
+		case 'delete_tile':
+			check_confirm('tile', 'Tiles', 'tile.php', array(
+				array('LandTiles', 'tileId')
+			));
 			break;
 			
 		case 'delete_map':
@@ -443,25 +516,32 @@ function submit_file($source, $name, $dest_dir, $table, $allowed) {
 			$tiles = string_to_land($land_data);
 			break;
 			
+		case 'reset_all':
+			destroy_dir('bgms');
+			destroy_dir('images');
+			destroy_dir('sfxs');
+			mkdir('bgms');
+			mkdir('images');
+			mkdir('sfxs');
+			rcopy('includes/bu/bgms', 'bgms');
+			rcopy('includes/bu/images', 'images');
+			rcopy('includes/bu/sfxs', 'sfxs');
+			$f = fopen('includes/sql/test_data.sql', 'r');
+			$data = fread($f, filesize('includes/sql/test_data.sql'));
+			$statements = explode(';', $data);
+			foreach ($statements as $s) {
+				$db->query($s, true);
+			}
+			echo "DB has been reset to its defaults.<br />";
+			echo "Uploaded files have been reset to their defaults.<br />";
+			echo '<a href="index.php">Back</a>';
+			break;
+			
+			
 		default:
-			echo "<h3>Invalid form parameteres.</h3>";
+			echo "<h3>Invalid form parameters.</h3>";
 			die();
 			break;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>

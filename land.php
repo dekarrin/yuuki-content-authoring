@@ -86,6 +86,7 @@ if (!array_key_exists('edit', $_GET)) {
 			<textarea cols="<?php echo $land['width']; ?>" rows="<?php echo $land['height']; ?>" name="land_data"><?php echo land_to_string($edit_id); ?></textarea>
 			<br />
 			<input type="submit" value="Update" />
+			<p>Updating does not work. This is a known issue.</p>
 		</form>
 <?php
 	}

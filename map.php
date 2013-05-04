@@ -23,12 +23,13 @@ if (!array_key_exists('edit', $_GET)) {
 	if (!empty($maps)) {
 ?>
 			<tr>
+				<th>Edit</th>
 				<th>ID</th>
 				<th>Content Pack</th>
 				<th>Land</th>
 				<th>Portals</th>
 				<th>Entities</th>
-				<th>Actions</th>
+				<th>Delete</th>
 			</tr>
 <?php
 		foreach ($maps as $m) {
@@ -38,14 +39,13 @@ if (!array_key_exists('edit', $_GET)) {
 			$l = $lands[0];
 ?>
 			<tr>
+				<td><a href="<?php echo $_SERVER['PHP_SELF'] . '?edit=' . $m['id']; ?>">Edit</a></td>
 				<td><?php echo $m['id']; ?></td>
 				<td><?php echo $c['name']; ?></td>
 				<td><?php echo $l['name']; ?></td>
 				<td><?php echo count($m['portals']); ?></td>
 				<td><?php echo count($m['entities']); ?></td>
-				<td><a href="<?php echo $_SERVER['PHP_SELF'] . '?edit=' . $m['id']; ?>">Edit</a>
-				<a href="submit.php?action=delete_map&id=<?php echo $m['id']; ?>">Delete</a>
-				</td>
+				<td><a href="submit.php?action=delete_map&id=<?php echo $m['id']; ?>">X</a></td>
 			</tr>
 <?php
 		}
@@ -64,7 +64,6 @@ if (!array_key_exists('edit', $_GET)) {
 				<tr>
 					<th>Content Pack</th>
 					<th>Land</th>
-					<th>&nbsp;</th>
 				</tr>
 				<tr>
 					<td><select name="content_pack">
@@ -83,9 +82,9 @@ if (!array_key_exists('edit', $_GET)) {
 	}
 ?>
 					</select></td>
-					<td><input type="submit" value="Add Map" /></td>
 				</tr>
 			</table>
+			<input type="submit" value="Add Map" />
 		</form>
 <?php
 } else {

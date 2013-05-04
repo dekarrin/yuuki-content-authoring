@@ -4,7 +4,14 @@
 
 	<h1>Tiles</h1>
 	<table border = 1>
-		<tr><th>ID</th><th>Name</th><th>Content Pack</th><th>Data Character</th><th>Traversable</th><th>Sprite</th></tr>
+		<tr>
+			<th>Name</th>
+			<th>Content Pack</th>
+			<th>Data Character</th>
+			<th>Traversable</th>
+			<th>Sprite</th>
+			<th>Delete</th>
+		</tr>
 		<?php
 			$usable_tiles = get_tiles();
 			
@@ -12,31 +19,57 @@
 				$cps = get_content_packs($u['cid']);
 				$c = $cps[0];
 				$t = ($u['traversable'] == '1') ? 'Yes' : 'No';
-				echo "<tr>";
-				echo "<td>{$u['id']}</td><td>{$u['name']}</td><td>{$c['name']}</td>
-					<td>{$u['dataChar']}</td><td>$t</td>
-					<td>{$u['sprite']}	</td>";
-				echo "</tr>";
+		?>
+		<tr>
+			<td><?php echo $u['name']; ?></td>
+			<td><?php echo $c['name']; ?></td>
+			<td><?php echo $u['dataChar']; ?></td>
+			<td><?php echo $t; ?></td>
+			<td><?php echo $u['sprite']; ?></td>
+			<td><a href="submit.php?action=delete_tile&id=<?php echo $u['id']; ?>">X</a>
+		</tr>
+		<?php
 			}
 		?>
 	</table>
-	
-	<form action = "submit.php?action=new_image" method = "post">
-		<label for = "file">Filename:</label><br>
-		<input type = "file" name = "file" id = "file"><br>
-		Name: <input type = "text" name = "name"><br>
-		Traversable: <input type = "radio" name = "traversable" value = "true">True
-		<input type = "radio" name = "traversable" value = "false">False<br>
-		Data Character: <input type = "text" name = "datachar"><br>
-		<input type = "submit" name = "submit" value = "Submit"><br>
-		<?php
+	<hr />
+	<form action = "submit.php?action=new_tile" method = "post">
+		<table border="1">
+			<tr>
+				<th>Name</th>
+				<th>Content Pack</th>
+				<th>Data Character</th>
+				<th>Traversable</th>
+				<th>Sprite</th>
+			</tr>
+			<tr>
+				<td><input type="text" name="name" /></td>
+				<td><select name="cid">
+			<?php
 			$usable_content_packs = get_content_packs();
-			echo "<select>";
 			foreach($usable_content_packs as $u){
-				echo "<option value=\"{$u['name']}\">{$u['name']}</option>";
+			?>
+					<option value="<?php echo $u['id']; ?>"><?php echo $u['name']; ?></option>
+			<?php
 			}
-			echo "</select>";
-		?>
+			?>
+				</select></td>
+				<td><input type="text" name="data_char" /></td>
+				<td><input type="checkbox" name="traversable" /></td>
+				<td><select name="sprite_id">
+			<?php
+			
+			$sprites = get_images();
+			foreach ($sprites as $s) {
+			?>
+					<option value="<?php echo $s['id']; ?>"><?php echo $s['filename']; ?></option>
+			<?php
+				}
+			?>
+				</select></td>
+			</tr>
+		</table>
+		<input type="submit" value="Add New Tile" />
 	</form>
 	
 
